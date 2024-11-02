@@ -138,7 +138,7 @@ CLOX_C_HEADER_BEGIN
 #   include <stdint.h>
 #else
 
-// Signed integers
+/* Signed integers */
 
 #if !defined INT8_MIN || !defined INT8_MAX
 
@@ -263,7 +263,7 @@ typedef int32_t int64_t;
 
 #endif
 
-// Unsigned integers
+/* Unsigned integers */
 
 #if !defined UINT8_MIN || !defined UINT8_MAX
 
