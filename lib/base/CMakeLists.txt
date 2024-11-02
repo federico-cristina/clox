@@ -6,6 +6,7 @@ set(HEADERS
     "api.h"
     "errno.h"
     "bits.h"
+    "file.h"
 )
 
 set(SOURCES
