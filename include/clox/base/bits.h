@@ -39,6 +39,30 @@
 #   define countof(array) (sizeof(array) / sizeof(*array))
 #endif
 
+#ifndef CLOX_SIZEOF_CHAR
+ /**
+  * @brief       This constant represents the number of bytes in a system char
+  *              to compute the number of bits in other data types.
+  */
+#   define CLOX_SIZEOF_CHAR     sizeof(char)
+#endif
+
+#ifndef CLOX_SIZEOF_WORD
+  /**
+   * @brief       This constant represents the number of bytes in a system word
+   *              to compute the number of words in other data types.
+   */
+#   define CLOX_SIZEOF_WORD     sizeof(int)
+#endif
+
+#ifndef CLOX_SIZEOF_WORD_PTR
+   /**
+    * @brief       This constant represents the number of bytes in a system word
+    *              pointer.
+    */
+#   define CLOX_SIZEOF_WORD_PTR sizeof(int*)
+#endif
+
 #ifndef CLOX_BITSOF_CHAR
 /**
  * @brief       This constant represents the number of bits in a system char
@@ -52,7 +76,7 @@
  * @brief       This constant represents the number of bits in a system word
  *              to compute the number of words in other data types.
  */
-#   define CLOX_BITSOF_WORD     (CLOX_BITSOF_CHAR * sizeof(int))
+#   define CLOX_BITSOF_WORD     (CLOX_BITSOF_CHAR * CLOX_SIZEOF_WORD)
 #endif
 
 #ifndef CLOX_BITSOF_WORD_PTR
@@ -60,7 +84,7 @@
  * @brief       This constant represents the number of bits in a system word
  *              pointer.
  */
-#   define CLOX_BITSOF_WORD_PTR (CLOX_BITSOF_CHAR * sizeof(int*))
+#   define CLOX_BITSOF_WORD_PTR (CLOX_BITSOF_CHAR * CLOX_SIZEOF_WORD_PTR)
 #endif
 
 #ifndef bitsof
