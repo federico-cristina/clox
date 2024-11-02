@@ -32,6 +32,11 @@ CLOX_INLINE CloxBuffer_t *CLOX_STDCALL clox_InitBuffer(CloxBuffer_t *const buffe
     return buffer;
 }
 
+CLOX_API CloxBuffer_t *CLOX_STDCALL cloxInitBuffer(CloxBuffer_t *const buffer, size_t capacity)
+{
+    return clox_InitBuffer(buffer, capacity);
+}
+
 CLOX_API CloxBuffer_t *CLOX_STDCALL cloxCreateBuffer(size_t capacity)
 {
     return clox_InitBuffer(alloc(CloxBuffer_t), capacity);

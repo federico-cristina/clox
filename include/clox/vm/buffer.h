@@ -29,6 +29,7 @@ typedef struct _CloxBuffer
     size_t  capacity;
 } CloxBuffer_t;
 
+CLOX_API CloxBuffer_t *CLOX_STDCALL cloxInitBuffer(CloxBuffer_t *const buffer, size_t capacity);
 CLOX_API CloxBuffer_t *CLOX_STDCALL cloxCreateBuffer(size_t capacity);
 
 CLOX_API CloxBuffer_t *CLOX_STDCALL cloxBufferResize(CloxBuffer_t *const buffer, size_t newCapacity);
