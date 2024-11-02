@@ -11,7 +11,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(CMAKE_C_STANDARD_REQUIRED ON)
 endif()
 
-option(CLOX_ENABLE_UNIT_TESTS "Enables unit tests targets." OFF)
+option(CLOX_ENABLE_UNIT_TESTS "Enables unit tests targets." ON)
 
 set(CLOX_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
