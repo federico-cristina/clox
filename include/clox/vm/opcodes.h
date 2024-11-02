@@ -15,7 +15,7 @@
 #ifndef CLOX_VM_OPCODES_H_
 #define CLOX_VM_OPCODES_H_
 
-#include "clox/base/byte.h"
+#include "clox/base/defs.h"
 
 CLOX_C_HEADER_BEGIN
 
