@@ -123,7 +123,7 @@ CLOX_INLINE void CLOX_STDCALL _dealloc(void **blockRef)
  * 
  * @param       block A pointer to the block of memory to free.
  */
-#   define dealloc(block) _dealloc(&block)
+#   define dealloc(block) _dealloc((void **)&block)
 #endif
 
 /**
