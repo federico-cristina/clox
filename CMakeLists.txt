@@ -18,16 +18,20 @@ set(CLOX_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(CLOX_MODULES_DIR "${CLOX_DIR}/cmake/modules")
 set(CLOX_INCLUDE_DIR "${CLOX_DIR}/include")
 set(CLOX_LIBRARY_DIR "${CLOX_DIR}/lib")
+set(CLOX_CONFIG_PATH "${CLOX_INCLUDE_DIR}/clox/config.h")
 
 list(APPEND CMAKE_MODULE_PATH "${CLOX_MODULES_DIR}")
 
 include(clox)
+
+configure_file("${CLOX_CONFIG_PATH}.in" "${CLOX_CONFIG_PATH}")
+clox_log("config file ${CLOX_CONFIG_PATH}")
 
 include_directories("${CLOX_INCLUDE_DIR}")
 
 add_subdirectory(lib)
 add_subdirectory(src)
 
-if(CALC_ENABLE_UNIT_TESTS)
+if(CLOX_ENABLE_UNIT_TESTS)
     add_subdirectory(units)
 endif()
