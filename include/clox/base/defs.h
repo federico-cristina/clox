@@ -253,7 +253,7 @@
 #   endif
 #endif
 
-// DLL Attributes
+/* DLL Attributes */
 
 #ifndef CLOX_DLL_IMPORT
 #   if CLOX_PLATFORM_IS_WINDOWS
