@@ -1,0 +1,13 @@
+# Hidden Directories
+.*/
+$*/
+
+# CMake Output Directories
+out/
+build/
+
+# Python Cache Directory
+__pycache__/
+
+# Configuration Files
+config.h
