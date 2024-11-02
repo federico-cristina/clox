@@ -1,0 +1,638 @@
+#pragma once
+
+/**
+ * @file        config.h
+ *
+ * @author      Federico Cristina <federico.cristina@outlook.it>
+ *
+ * @copyright   Copyright (c) 2024 Federico Cristina
+ *
+ *              This file is part of the clox programming language project,
+ *              under the MIT License. See repo's LICENSE file for license
+ *              informations.
+ *
+ * @version     1.1
+ *
+ * @brief       In this header are defined basical configuration constants
+ *              and macros based on current environment informations.
+ */
+
+#ifndef CLOX_CONFIG_H_
+#define CLOX_CONFIG_H_
+
+#ifndef CMAKE_ON
+/**
+ * @brief       This constants represents CMake ON value.
+ */
+#   define CMAKE_ON 1
+#elif  !CMAKE_ON
+#   error CMAKE_ON must be 1.
+#endif
+
+#ifndef CMAKE_OFF
+/**
+ * @brief       This constants represents CMake OFF value.
+ */
+#   define CMAKE_OFF 0
+#elif   CMAKE_OFF
+#   error CMAKE_OFF must be 0.
+#endif
+
+#ifndef CMAKE_
+/**
+ * @brief       This constants represents CMake undefined value.
+ */
+#   define CMAKE_ 0
+#elif   CMAKE_
+#   error CMAKE_ must be 0.
+#endif
+
+/**
+ * @defgroup    VERSION Versioning Informations
+ * @{
+ */
+
+#pragma region Versioning Informations
+
+#ifndef CLOX_VERSION_MAJOR
+/**
+ * @brief       This constant represents the major version number: the first
+ *              number of the version string.
+ */
+#   define CLOX_VERSION_MAJOR ${PROJECT_VERSION_MAJOR}
+#endif
+
+#ifndef CLOX_VERSION_MINOR
+/**
+ * @brief       This constant represents the minor version number: the second
+ *              number of the version string.
+ */
+#   define CLOX_VERSION_MINOR ${PROJECT_VERSION_MINOR}
+#endif
+
+#ifndef CLOX_VERSION_PATCH
+/**
+ * @brief       This constant represents the patch version number: the third
+ *              and last number of the version string.
+ */
+#   define CLOX_VERSION_PATCH ${PROJECT_VERSION_PATCH}
+#endif
+
+#ifndef CLOX_VERSION
+/**
+ * @brief       This costant represents a string containing the textual version
+ *              of the project.
+ *
+ * @note        To compare the version number with another, may be better to use
+ *              the numeric value of the version reprensented by: `CLOX_VERSION_ID`.
+ */
+#   define CLOX_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+#endif
+
+#ifndef CLOX_VERSION_ID
+/**
+ * @brief       This constant represents a number that identifies the project
+ *              version. The identifier is contructed using an hexadecimal number
+ *              of this form 0x0{MAJOR}{MINOR}{PATCH}.
+ */
+#   define CLOX_VERSION_ID 0x0${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}${PROJECT_VERSION_PATCH}
+#endif
+
+#pragma endregion
+
+/**
+ * @}
+ * 
+ * @defgroup    C_STANDARD C Standard Informations
+ * @{
+ */
+
+#pragma region C Standard Informations
+
+/**
+ * @brief       C89/C90 standard number.
+ *
+ * @note        This is the basic standard of C used by this project, this is an
+ *              hosted C project that requires C89/C90 standard library.
+ */
+#define CLOX_C_STANDARD_C90 1990
+/**
+ * @brief       C99 standard number.
+ *
+ * @note        Since this C standard, some useful features that helps to build a
+ *              more optimized program were added: `inline` and `restrict` keywords,
+ *              `long long` datatype, `__func__` predefined identifier and some new
+ *              standard libary headers such as `<stdint.h>` and `<inttypes.h>`.
+ */
+#define CLOX_C_STANDARD_C99 1999
+/**
+ * @brief       C11 standard number.
+ */
+#define CLOX_C_STANDARD_C11 2011
+/**
+ * @brief       C17 standard number.
+ */
+#define CLOX_C_STANDARD_C17 2017
+/**
+ * @brief       C23 standard number.
+ */
+#define CLOX_C_STANDARD_C23 2023
+
+#ifndef CLOX_C_STANDARD
+#   if defined __STDC_VERSION__ && !CMAKE_${CMAKE_C_STANDARD_REQUIRED}
+#       if      __STDC_VERSION__ <= 199409L
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C90)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C90
+#       elif    __STDC_VERSION__ <= 199901L
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C99)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C99
+#       elif    __STDC_VERSION__ <= 201112L
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C11)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C11
+#       elif    __STDC_VERSION__ <= 201710L
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C17)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C17
+#       elif    __STDC_VERSION__ <= 202311L
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C23)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C23
+#       else
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version. (C90)
+ */
+#           define CLOX_C_STANDARD CLOX_C_STANDARD_C${CMAKE_C_STANDARD}
+#       endif
+#   else
+/**
+ * @brief       This constant represents the C standard identifier number to enable
+ *              conditional compilation to support each C standard version.
+ */
+#       define CLOX_C_STANDARD CLOX_C_STANDARD_C${CMAKE_C_STANDARD}
+#   endif
+#endif
+
+#ifndef CLOX_C_EXTENSIONS
+/**
+ * @brief       This boolean constants can be used to check if C extensions are
+ *              enabled.
+ */
+#   define CLOX_C_EXTENSIONS CMAKE_${CMAKE_C_EXTENSIONS}
+#endif
+
+#pragma endregion
+
+/**
+ * @}
+ * 
+ * @defgroup    ARCHITECTURE Architecture Informations
+ */
+
+#pragma region Architecture Informations
+
+/**
+ * @brief       Unrecognized architecture.
+ */
+#define CLOX_ARCHTECT_ID_NONE  0x00
+/**
+ * @brief       AMD64/x64 architecture.
+ */
+#define CLOX_ARCHTECT_ID_AMD64 0x02
+/**
+ * @brief       Intel x86 architecture.
+ */
+#define CLOX_ARCHTECT_ID_IX86  0x04
+/**
+ * @brief       ARM architecture.
+ */
+#define CLOX_ARCHTECT_ID_ARM   0x08
+/**
+ * @brief       ARM64 architecture.
+ */
+#define CLOX_ARCHTECT_ID_ARM64 0x18
+/**
+ * @brief       ARM64EC architecture.
+ */
+#define CLOX_ARCHTECT_ID_ARMEC 0x28
+
+#ifndef CLOX_ARCHTECT_ID
+#   if   defined __amd64__   || defined __amd64   \
+      || defined __x86_x64__ || defined __x86_x64 \
+      || defined _M_AMD64
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_AMD64
+#   elif defined __i386__    || defined __i386    \
+      || defined _M_IX86
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_IX86
+#   elif defined __arm__     || defined __arm     \
+      || defined _M_ARM
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_ARM
+#   elif defined __aarch64__                      \
+      || defined _M_ARM64
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_ARM64
+#   elif defined _M_ARM64EC
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_ARMEC
+#   else
+/**
+ * @brief       This constant represents the identifier number of the architecture for
+ *              which is compiled this source.   
+ */
+#       define CLOX_ARCHTECT_ID CLOX_ARCHTECT_ID_NONE
+#   endif
+#endif
+
+#ifndef CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       This constant can be used to check if the output binary executable is
+ *              based on a 64-bit or 32-bit architecture.
+ */
+#   define CLOX_ARCHTECT_IS_64_BIT      ((CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_AMD64) \
+                                      || (CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_ARM64) \
+                                      || (CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_ARMEC))
+#endif
+
+#ifndef CLOX_ARCHTECT_NAME
+#   if   CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_NONE
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "none"
+#   elif CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_AMD64
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "x64"
+#   elif CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_IX86
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "x86"
+#   elif CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_ARM
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "ARM"
+#   elif CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_ARM64
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "ARM64"
+#   elif CLOX_ARCHTECT_ID == CLOX_ARCHTECT_ID_ARMEC
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              architecture for which is compiled this source.
+ */
+#       define CLOX_ARCHTECT_NAME "ARM64EC"
+#   endif
+#endif
+
+#pragma endregion
+
+/**
+ * @}
+ * 
+ * @defgroup    COMPILER Compiler Informations
+ * @{
+ */
+
+#pragma region Compiler Informations
+
+/**
+ * @brief       Unrecognized Compiler.
+ */
+#define CLOX_COMPILER_ID_NONE 0x00
+/**
+ * @brief       Microsoft Visual C/C++ Compiler.
+ */
+#define CLOX_COMPILER_ID_MSVC 0x02
+/**
+ * @brief       LLVM Clang Compiler.
+ */
+#define CLOX_COMPILER_ID_LLVM 0x04
+/**
+ * @brief       GNU C Compiler. (GNU Compiler Collection)
+ */
+#define CLOX_COMPILER_ID_GNUC 0x08
+
+#ifndef CLOX_COMPILER_ID
+#   if   defined __clang__
+/**
+ * @brief       This constant represents the numeric identifier of the compiler
+ *              from which is compiled this source.
+ */
+#       define CLOX_COMPILER_ID CLOX_COMPILER_ID_LLVM
+#   elif defined _MSC_VER
+/**
+ * @brief       This constant represents the numeric identifier of the compiler
+ *              from which is compiled this source.
+ */
+#       define CLOX_COMPILER_ID CLOX_COMPILER_ID_MSVC
+#   elif defined __GNUC__
+/**
+ * @brief       This constant represents the numeric identifier of the compiler
+ *              from which is compiled this source.
+ */
+#       define CLOX_COMPILER_ID CLOX_COMPILER_ID_GNUC
+#   else
+/**
+ * @brief       This constant represents the numeric identifier of the compiler
+ *              from which is compiled this source.
+ */
+#       define CLOX_COMPILER_ID CLOX_COMPILER_ID_NONE
+#   endif
+#endif
+
+#ifndef CLOX_COMPILER_HAS_CCONVS
+/**
+ * @brief       This constant can be used to check if the compiler supports calling
+ *              conventions specification in Microsoft-style.
+ */
+#   define CLOX_COMPILER_HAS_CCONVS    ((((CLOX_COMPILER_ID == CLOX_COMPILER_ID_LLVM) \
+                                       || (CLOX_COMPILER_ID == CLOX_COMPILER_ID_MSVC))) && CLOX_C_EXTENSIONS)
+#endif
+
+#ifndef CLOX_COMPILER_HAS_DECLSPEC
+/**
+ * @brief       This constant represents can be used to check if the compiler supports
+ *              __declspec attributes specification.
+ */
+#   define CLOX_COMPILER_HAS_DECLSPEC  ((((CLOX_COMPILER_ID == CLOX_COMPILER_ID_LLVM) \
+                                       || (CLOX_COMPILER_ID == CLOX_COMPILER_ID_MSVC))) && CLOX_C_EXTENSIONS)
+#endif
+
+#ifndef CLOX_COMPILER_NAME
+#   if   CLOX_COMPILER_ID == CLOX_COMPILER_ID_NONE
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              compiler from which is compiled this source.
+ */
+#       define CLOX_COMPILER_NAME "none"
+#   elif CLOX_COMPILER_ID == CLOX_COMPILER_ID_LLVM
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              compiler from which is compiled this source.
+ */
+#       define CLOX_COMPILER_NAME "clang"
+#   elif CLOX_COMPILER_ID == CLOX_COMPILER_ID_MVSC
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              compiler from which is compiled this source.
+ */
+#       define CLOX_COMPILER_NAME "mvsc"
+#   elif CLOX_COMPILER_ID == CLOX_COMPILER_ID_GNUC
+/**
+ * @brief       This constant represents a string containing the display name of the
+ *              compiler from which is compiled this source.
+ */
+#       define CLOX_COMPILER_NAME "gcc"
+#   endif
+#endif
+
+// Compilation
+
+#ifndef CLOX_CURRENT_PATH
+/**
+ * @brief       This constant represents a string containing the current project's
+ *              directory, to use in tests and to localize files.
+ */
+#   define CLOX_CURRENT_PATH "${CLOX_DIR}"
+#endif
+
+#pragma endregion
+
+/**
+ * @}
+ * 
+ * @defgroup    CLOX_CONFIG_H_PLATFORM Platform Informations
+ * @{
+ */
+
+#pragma region Platform Informations
+
+/**
+ * @brief       Unrecognized Platform.
+ */
+#define CLOX_PLATFORM_ID_NONE  0x00
+/**
+ * @brief       Microsoft Windows 32-bit.
+ */
+#define CLOX_PLATFORM_ID_WIN32 0x02
+/**
+ * @brief       Microsoft Windows 32-bit with WSL.
+ */
+#define CLOX_PLATFORM_ID_WSL32 0x12
+/**
+ * @brief       Microsoft Windows 64-bit.
+ */
+#define CLOX_PLATFORM_ID_WIN64 0x04
+/**
+ * @brief       Microsoft Windows 64-bit with WSL.
+ */
+#define CLOX_PLATFORM_ID_WSL64 0x14
+/**
+ * @brief       Unix or Unix-like Platform.
+ */
+#define CLOX_PLATFORM_ID_UNIX  0x08
+/**
+ * @brief       Linux Platform.
+ */
+#define CLOX_PLATFORM_ID_LINUX 0x10
+/**
+ * @brief       Mac OS X (macOS) Platform.
+ */
+#define CLOX_PLATFORM_ID_MACOS 0x20
+
+#ifndef CLOX_PLATFORM_ID
+#   if   defined _WIN64
+#       ifdef   __linux__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#           define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_WSL64
+#       else
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#           define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_WIN64
+#       endif
+#   elif defined _WIN32
+#       ifdef   __linux__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#           define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_WSL32
+#       else
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#           define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_WIN32
+#       endif
+#   elif defined __linux__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_LINUX
+#   elif defined __mach__ || defined __APPLE__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_MACOS
+#   elif defined __unix__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_UNIX
+#   else
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_NONE
+#   endif
+#endif
+
+#ifndef CLOX_PLATFORM_IS_WINDOWS
+/**
+ * @brief       This constant can be used to check if the current platform is Windows
+ *              or Windows-based.
+ */
+#   define CLOX_PLATFORM_IS_WINDOWS     ((CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WIN64) \
+                                      || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WIN32))
+#endif
+
+#ifndef CLOX_PLATFORM_IS_UNIX
+/**
+ * @brief       This constant can be used to check if the current platform is Unix
+ *              or Unix-like.
+ */
+#   define CLOX_PLATFORM_IS_UNIX        ((CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_UNIX)  \
+                                      || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX) \
+                                      || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_MACOS))
+#endif
+
+#ifndef CLOX_PLATFORM_IS_MACOS
+/**
+ * @brief       This constant can be used to check if the current platform is macOS
+ *              or macOS-based.
+ */
+#   define CLOX_PLATFORM_IS_MACOS        (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_MACOS)
+#endif
+
+#ifndef CLOX_PLATFORM_NAME
+#   if   CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_NONE
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "none"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WIN64
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Win64"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WIN32
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Win32-WSL"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WSL64
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Win64-WSL"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WSL32
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Win32"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_UNIX
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Unix"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "Linux"
+#   elif CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_MACOS
+/**
+ * @brief       This constant represents the name of the platform on which has been
+ *              compiled this header.
+ */
+#       define CLOX_PLATFORM_NAME "macOS"
+#   endif
+#endif
+
+#pragma endregion
+
+/**
+ * @}
+ */
+
+#ifndef CLOX_MAGIC_NUMBER
+/**
+ * @brief       This constant represents the clox magic number.
+ */
+#   define CLOX_MAGIC_NUMBER 0x434C4F58
+#endif
+
+#ifndef CLOX_MAGIC_STRING
+/**
+ * @brief       This constant represents the clox magic string.
+ */
+#   define CLOX_MAGIC_STRING "\x43\x4C\x4F\x58"
+#endif
+
+#endif /* CLOX_CONFIG_H_ */
