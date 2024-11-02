@@ -2,7 +2,7 @@ enable_testing()
 
 # Usage:
 #
-#   clox_add_unit_test(<TARGET>)
+#   clox_add_unit_test(<TARGET> SOURCES <SOURCES> [TEST] [DEPENDS <DEPENDENCIES>] [[INSTALL] [DESTINATION <PATH>]])
 #
 # Adds an unit-test executable.
 #
