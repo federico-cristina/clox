@@ -426,7 +426,7 @@
 #   endif
 #endif
 
-// Compilation
+/* Compilation */
 
 #ifndef CLOX_CURRENT_PATH
 /**
