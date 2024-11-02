@@ -24,6 +24,7 @@
 #include "clox/base/defs.h"
 
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
@@ -150,6 +151,263 @@ CLOX_INLINE void CLOX_STDCALL perrno(void)
 
     return;
 }
+
+#pragma endregion
+
+/**
+ * @}
+ *
+ * @defgroup    FATAL_ERRORS_HANDLING Fatal Errors Handling
+ * @{
+ */
+
+#pragma region Fatal Errors Handling
+
+#ifndef CLOX_ERROR_TRACE_SPACES
+/**
+ * @brief       This constant represents the default number of spaces used at the
+ *              beginning of an error trace. (It can be used to build error messages)
+ */
+#   define CLOX_ERROR_TRACE_SPACES "    "
+#endif
+
+#ifndef CLOX_ERROR_TRACE_STRING
+#   if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+/**
+ * @brief       This constant represents the default internal error trace string used
+ *              (in fail macros) to show in which file and in which function has been
+ *              thrown the error.
+ */
+#       define CLOX_ERROR_TRACE_STRING "\n" CLOX_ERROR_TRACE_SPACES "at %s in %s:%lld"
+#   else
+/**
+ * @brief       This constant represents the default internal error trace string used
+ *              (in fail macros) to show in which file and in which function has been
+ *              thrown the error.
+ */
+#       define CLOX_ERROR_TRACE_STRING "\n" CLOX_ERROR_TRACE_SPACES "in %s:%ld"
+#   endif
+#endif
+
+#if CLOX_DEBUG
+
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+/**
+ * @brief       This function shows an error message supposing that that error is not
+ *              fatal.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE void CLOX_CDECL _warn(const char *const format, const char *const func, const char *const file, long long line, ...)
+#else
+/**
+ * @brief       This function shows an error message supposing that that error is not
+ *              fatal.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE void CLOX_CDECL _warn(const char *const format, const char *const file, long long line, ...)
+#endif
+{
+    va_list arglist;
+
+    va_start(arglist, line);
+    veprintf(format, arglist);
+    va_end(arglist);
+
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+    eprintfn(CLOX_ERROR_TRACE_STRING, func, file, line);
+#else
+    eprintfn(CLOX_ERROR_TRACE_STRING, file, line);
+#endif
+
+    return;
+}
+
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+/**
+ * @brief       This function aborts program execution printing a formatted error
+ *              message on the error stream.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE CLOX_NORETURN void CLOX_CDECL _fail(const char *const format, const char *const func, const char *const file, long long line, ...)
+#else
+/**
+ * @brief       This function aborts program execution printing a formatted error
+ *              message on the error stream.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE CLOX_NORETURN void CLOX_CDECL _fail(const char *const format, const char *const file, long long line, ...)
+#endif
+{
+    va_list arglist;
+
+    va_start(arglist, line);
+    veprintf(format, arglist);
+    va_end(arglist);
+
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+    eprintfn(CLOX_ERROR_TRACE_STRING, func, file, line);
+#else
+    eprintfn(CLOX_ERROR_TRACE_STRING, file, line);
+#endif
+
+    abort();
+}
+
+#else
+
+/**
+ * @brief       This function shows an error message supposing that that error is not
+ *              fatal.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE void CLOX_CDECL _warn(const char *const format, ...)
+{
+    va_list arglist;
+
+    va_start(arglist, format);
+    veprintf(format, arglist);
+    va_end(arglist);
+
+    return;
+}
+
+/**
+ * @brief       This function aborts program execution printing a formatted error
+ *              message on the error stream.
+ * 
+ * @param       format Format string of the message to print.
+ * @param       others Arguments to use to format the message.
+ */
+CLOX_INLINE CLOX_NORETURN void CLOX_CDECL _fail(const char *const format, ...)
+{
+    va_list arglist;
+
+    va_start(arglist, format);
+    veprintfn(format, arglist);
+    va_end(arglist);
+
+    abort();
+}
+
+#endif
+
+#ifndef warn
+#   if CLOX_DEBUG
+#       if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+/**
+ * @brief       While debugging reports a non fatal error with the position into
+ *              the source code.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#           define warn(format, ...) _warn(format, __func__, __FILE__, __LINE__, __VA_ARGS__)
+#       else
+/**
+ * @brief       While debugging reports a non fatal error with the position into
+ *              the source code.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#           define warn(format, ...) _warn(format, __FILE__, __LINE__, __VA_ARGS__)
+#       endif
+#   else
+/**
+ * @brief       While debugging reports a non fatal error with the position into
+ *              the source code.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#       define warn(format, ...) _warn(format, __VA_ARGS__)
+#   endif
+#endif
+
+#ifndef fail
+#   if CLOX_DEBUG
+#       if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+/**
+ * @brief       While debugging aborts printing the name of function from where
+ *              has been reported the fatal error.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#           define fail(format, ...) _fail(format, __func__, __FILE__, __LINE__, __VA_ARGS__)
+#       else
+/**
+ * @brief       While debugging aborts printing the name of function from where
+ *              has been reported the fatal error.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#           define fail(format, ...) _fail(format, __FILE__, __LINE__, __VA_ARGS__)
+#       endif
+#   else
+/**
+ * @brief       While debugging aborts printing the name of function from where
+ *              has been reported the fatal error.
+ * 
+ * @param       format A constant string defining the format of the error message
+ *              to print.
+ * @param       others The arguments to use to format.
+ */
+#       define fail(format, ...) _fail(format, __VA_ARGS__)
+#   endif
+#endif
+
+#ifndef notice
+/**
+ * @brief       Reports an error.
+ * 
+ * @param       essage An additional message to print to explain the error.
+ */
+#   define notice(message) (warn("error: %s", (message)), NULL)
+#endif
+
+#ifndef failno
+/**
+ * @brief       Aborts program execution printing an error message based on
+ *              the current value of errno.
+ * 
+ * @param       essage An additional message to print to explain the error.
+ */
+#   define failno(message) (fail("errno %d (%s): %s (%s)", errno, errnoname(errno), (message), strerror(errno)), NULL)
+#endif
+
+#ifndef unreach
+/**
+ * @brief       This macro marks a portion of code which normally cannot be
+ *              reached without some errors. So, when unreachable code is
+ *              reached, there must be an error (maybe uknown) and so fails.
+ */
+#   define unreach() (fail("error: unreachable code has been reached", NULL), NULL)
+#endif
+
+#ifndef noimpl
+/**
+ * @brief       This macro marks a portion of code not yet implemented and so
+ *              fails when reach it.
+ */
+#   define notimpl() (fail("error: not implemented yet", NULL), NULL)
+#endif
 
 #pragma endregion
 
