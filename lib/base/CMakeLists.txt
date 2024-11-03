@@ -9,12 +9,14 @@ set(HEADERS
     "file.h"
     "string.h"
     "utf8.h"
+    "path.h"
 )
 
 set(SOURCES
     "errno.c"
     "string.c"
     "utf8.c"
+    "path.c"
 )
 
 clox_add_library(base
