@@ -7,10 +7,12 @@ set(HEADERS
     "errno.h"
     "bits.h"
     "file.h"
+    "string.h"
 )
 
 set(SOURCES
     "errno.c"
+    "string.c"
 )
 
 clox_add_library(base
