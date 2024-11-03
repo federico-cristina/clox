@@ -15,10 +15,10 @@
  */
 
 #ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(name)
+#   define cloxDefineOpCode(name, opCode)
 #endif
 
 /**
  * @brief       Return opcode. (ret)
  */
-cloxDefineOpCode(CLOX_OP_RETURN)
+cloxDefineOpCode(CLOX_OPCODE_RET,       "ret")

@@ -15,7 +15,7 @@
 #ifndef CLOX_VM_OPCODES_H_
 #define CLOX_VM_OPCODES_H_
 
-#include "clox/base/defs.h"
+#include "clox/base/api.h"
 
 CLOX_C_HEADER_BEGIN
 
@@ -38,7 +38,7 @@ typedef enum _CloxOpCode
     CLOX_OPCODE_NOP = 0,
 
 #ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(name) name,
+#   define cloxDefineOpCode(name, opCode) name,
 #endif
 
 #include CLOX_VM_OPCODES_INC_
@@ -47,6 +47,8 @@ typedef enum _CloxOpCode
 #   undef cloxDefineOpCode
 #endif
 } CloxOpCode_t;
+
+CLOX_API const char *CLOX_STDCALL cloxGetOpCodeName(CloxOpCode_t opCode);
 
 CLOX_C_HEADER_END
 
