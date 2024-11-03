@@ -8,34 +8,6 @@
 
 #include <ctype.h>
 
-#if !CLOX_C_EXTENSIONS && !defined __strcasecmp
-
-int CLOX_STDCALL stricmp(const char *const str1, const char *const str2)
-{
-    CLOX_REGISTER const unsigned char *p1 = (const unsigned char *)str1;
-    CLOX_REGISTER const unsigned char *p2 = (const unsigned char *)str2;
-
-    unsigned char c1, c2;
-
-    do
-    {
-        c1 = (unsigned char)*(p1++);
-        c2 = (unsigned char)*(p2++);
-
-        c1 = tolower(c1);
-        c2 = tolower(c2);
-
-        if (c1 == NUL)
-            return c1 - c2;
-        else
-            continue;
-    } while (c1 == c2);
-
-    return c1 - c2;
-}
-
-#endif
-
 char *CLOX_STDCALL strnget(const char *const str, size_t count)
 {
     char *result = stralloc(count);
@@ -96,6 +68,34 @@ char *CLOX_STDCALL strnupp(char *const dest, const char *const src, size_t count
 
     return result;
 }
+
+#if (!CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)) && !defined __strcasecmp
+
+int CLOX_STDCALL stricmp(const char *const str1, const char *const str2)
+{
+    CLOX_REGISTER const unsigned char *p1 = (const unsigned char *)str1;
+    CLOX_REGISTER const unsigned char *p2 = (const unsigned char *)str2;
+
+    unsigned char c1, c2;
+
+    do
+    {
+        c1 = (unsigned char)*(p1++);
+        c2 = (unsigned char)*(p2++);
+
+        c1 = tolower(c1);
+        c2 = tolower(c2);
+
+        if (c1 == NUL)
+            return c1 - c2;
+        else
+            continue;
+    } while (c1 == c2);
+
+    return c1 - c2;
+}
+
+#endif
 
 bool_t CLOX_STDCALL streq(const char *const str1, const char *const str2)
 {

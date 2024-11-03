@@ -228,7 +228,7 @@ CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
 
 #pragma region String Equality Functions
 
-#if !CLOX_C_EXTENSIONS
+#if !CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)
 #   ifdef __strcasecmp
 #       define stricmp __strcasecmp
 #   else
