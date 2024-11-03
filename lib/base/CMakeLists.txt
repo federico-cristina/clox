@@ -10,6 +10,7 @@ set(HEADERS
     "string.h"
     "utf8.h"
     "path.h"
+    "dload.h"
 )
 
 set(SOURCES
@@ -17,6 +18,7 @@ set(SOURCES
     "string.c"
     "utf8.c"
     "path.c"
+    "dload.c"
 )
 
 clox_add_library(base
