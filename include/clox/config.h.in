@@ -509,18 +509,18 @@
  */
 #           define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_WIN32
 #       endif
+#   elif defined __mach__ || defined __MACH__ || defined __APPLE__
+/**
+ * @brief       This constant represents the platoform numeric identifier on which
+ *              this source is compiled.
+ */
+#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_MACOS
 #   elif defined __linux__
 /**
  * @brief       This constant represents the platoform numeric identifier on which
  *              this source is compiled.
  */
 #       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_LINUX
-#   elif defined __mach__ || defined __APPLE__
-/**
- * @brief       This constant represents the platoform numeric identifier on which
- *              this source is compiled.
- */
-#       define CLOX_PLATFORM_ID CLOX_PLATFORM_ID_MACOS
 #   elif defined __unix__
 /**
  * @brief       This constant represents the platoform numeric identifier on which
