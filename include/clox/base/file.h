@@ -154,10 +154,10 @@ CLOX_INLINE size_t CLOX_STDCALL fgetsiz(FILE *const stream) {
     fpos_t fpos;
 
     if (fgetpos(stream, &fpos))
-        failno("fgetpos is failed");
+        return (size_t)failno("fgetpos is failed");
 
     if (fseek(stream, 0, SEEK_END))
-        failno("fseek is failed");
+        return (size_t)failno("fseek is failed");
 
 #if CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_WIN64
     size_t fsiz = _ftelli64(stream);
@@ -166,7 +166,7 @@ CLOX_INLINE size_t CLOX_STDCALL fgetsiz(FILE *const stream) {
 #endif
 
     if (fsetpos(stream, &fpos))
-        failno("fsetpos is failed");
+        return (size_t)failno("fsetpos is failed");
     else
         return fsiz;
 }
