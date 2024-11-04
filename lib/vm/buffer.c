@@ -115,7 +115,7 @@ CLOX_API CloxBuffer_t *CLOX_STDCALL cloxBufferShrink(CloxBuffer_t *const buffer,
 
 CLOX_INLINE CloxBuffer_t *CLOX_STDCALL clox_BufferGrow(CloxBuffer_t *const buffer)
 {
-    return cloxBufferExpand(buffer, CLOX_SIZEOF_WORD_PTR);
+    return cloxBufferExpand(buffer, buffer->capacity >> 1);
 }
 
 CLOX_API CloxBuffer_t *CLOX_STDCALL cloxBufferPush(CloxBuffer_t *const buffer, byte_t value)
