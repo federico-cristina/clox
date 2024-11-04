@@ -228,7 +228,17 @@ CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
 
 #pragma region String Equality Functions
 
-#if !CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)
+#if CLOX_PLATFORM_IS_MACOS
+/**
+ * @brief       Performs a case-insensitive comparison of strings.
+ * 
+ * @param       str1 First null-terminated strings to compare.
+ * @param       str2 Second null-terminated strings to compare.
+ * @return      -1 if str1 is less than str2, +1 if str1 is grater than str2, or 0
+ *              if str1 and str2 have the same value.
+ */
+#   define stricmp(str1, str2) strcasecmp((str1), (str2))
+#else
 /**
  * @brief       Performs a case-insensitive comparison of strings.
  * 
