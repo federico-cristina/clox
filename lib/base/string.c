@@ -69,7 +69,7 @@ char *CLOX_STDCALL strnupp(char *const dest, const char *const src, size_t count
     return result;
 }
 
-#if !CLOX_PLATFORM_IS_MACOS || !CLOX_PLATFORM_IS_WINDOWS || (CLOX_PLATFORM_IS_WINDOWS && !CLOX_C_EXTENSIONS)
+#if (!CLOX_PLATFORM_IS_MACOS && !CLOX_PLATFORM_IS_WINDOWS) || (CLOX_PLATFORM_IS_WINDOWS && !CLOX_C_EXTENSIONS)
 
 int CLOX_STDCALL stricmp(const char *const str1, const char *const str2)
 {
