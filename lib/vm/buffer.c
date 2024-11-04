@@ -115,7 +115,14 @@ CLOX_API CloxBuffer_t *CLOX_STDCALL cloxBufferShrink(CloxBuffer_t *const buffer,
 
 CLOX_INLINE CloxBuffer_t *CLOX_STDCALL clox_BufferGrow(CloxBuffer_t *const buffer)
 {
-    return cloxBufferExpand(buffer, buffer->capacity >> 1);
+    CLOX_REGISTER uint32_t offset = buffer->capacity;
+
+    if (offset)
+        offset >>= 1;
+    else
+        offset = CLOX_SIZEOF_WORD_PTR;
+
+    return cloxBufferExpand(buffer, offset);
 }
 
 CLOX_API CloxBuffer_t *CLOX_STDCALL cloxBufferPush(CloxBuffer_t *const buffer, byte_t value)
