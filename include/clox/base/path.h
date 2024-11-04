@@ -22,8 +22,6 @@
 
 #include "clox/base/defs.h"
 
-#include <string.h>
-
 /**
  * @defgroup    PLATFORM_PATH_DEFINITIONS Platform Path Definitions
  * @{
