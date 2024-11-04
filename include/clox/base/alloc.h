@@ -41,7 +41,7 @@ CLOX_C_HEADER_BEGIN
 CLOX_INLINE void *CLOX_STDCALL _check(void *const block, const char *const errMsg)
 {
     if (!block)
-        failno(errMsg);
+        return failno(errMsg);
     else
         return block;
 }
