@@ -69,7 +69,7 @@ char *CLOX_STDCALL strnupp(char *const dest, const char *const src, size_t count
     return result;
 }
 
-#if (!CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)) && !defined __strcasecmp
+#if !CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)
 
 int CLOX_STDCALL stricmp(const char *const str1, const char *const str2)
 {

@@ -229,9 +229,6 @@ CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
 #pragma region String Equality Functions
 
 #if !CLOX_C_EXTENSIONS || (CLOX_PLATFORM_ID == CLOX_PLATFORM_ID_LINUX)
-#   ifdef __strcasecmp
-#       define stricmp __strcasecmp
-#   else
 /**
  * @brief       Performs a case-insensitive comparison of strings.
  * 
@@ -241,7 +238,6 @@ CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
  *              if str1 and str2 have the same value.
  */
 CLOX_EXTERN int CLOX_STDCALL stricmp(const char *const str1, const char *const str2);
-#   endif
 #endif
 
 /**
