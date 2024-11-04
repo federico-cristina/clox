@@ -5,10 +5,6 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
         VERSION   0.1.0
         LANGUAGES C
     )
-
-    set(CMAKE_C_EXTENSIONS        ON)
-    set(CMAKE_C_STANDARD          99)
-    set(CMAKE_C_STANDARD_REQUIRED ON)
 endif()
 
 option(CLOX_ENABLE_UNIT_TESTS "Enables unit tests targets." ON)
