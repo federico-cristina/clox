@@ -18,7 +18,6 @@
 #include "clox/base/api.h"
 #include "clox/base/bits.h"
 #include "clox/base/byte.h"
-#include "clox/base/errno.h"
 
 CLOX_C_HEADER_BEGIN
 
@@ -43,6 +42,27 @@ CLOX_API byte_t CLOX_STDCALL cloxBufferPop(CloxBuffer_t *const buffer);
 CLOX_API byte_t CLOX_STDCALL cloxBufferGet(CloxBuffer_t *const buffer, size_t index);
 
 CLOX_API void CLOX_STDCALL cloxDeleteBuffer(CloxBuffer_t *const buffer);
+
+typedef struct _CloxBufferReader
+{
+    byte_t *array;
+    size_t  count;
+    size_t  index;
+} CloxBufferReader_t;
+
+CLOX_API CloxBufferReader_t *CLOX_STDCALL cloxInitBufferReader(CloxBufferReader_t *const bufferReader, const CloxBuffer_t *const buffer);
+CLOX_API CloxBufferReader_t *CLOX_STDCALL cloxCreateBufferReader(const CloxBuffer_t *const buffer);
+
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderPeek(CloxBufferReader_t *const bufferReader);
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderNext(CloxBufferReader_t *const bufferReader);
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderBack(CloxBufferReader_t *const bufferReader);
+
+CLOX_INLINE bool_t CLOX_STDCALL cloxBufferReaderAtEnd(const CloxBufferReader_t *const bufferReader)
+{
+    return bufferReader->index >= bufferReader->count;
+}
+
+CLOX_API void CLOX_STDCALL cloxDeleteBufferReader(CloxBufferReader_t *const bufferReader);
 
 CLOX_C_HEADER_END
 

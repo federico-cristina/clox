@@ -197,3 +197,71 @@ CLOX_API void CLOX_STDCALL cloxDeleteBuffer(CloxBuffer_t *const buffer)
 
     return;
 }
+
+CLOX_API CloxBufferReader_t *CLOX_STDCALL cloxInitBufferReader(CloxBufferReader_t *const bufferReader, const CloxBuffer_t *const buffer)
+{
+    assert(bufferReader != NULL);
+
+    bufferReader->array = buffer->array;
+    bufferReader->count = buffer->count;
+    bufferReader->index = 0;
+
+    return bufferReader;
+}
+
+CLOX_API CloxBufferReader_t *CLOX_STDCALL cloxCreateBufferReader(const CloxBuffer_t *const buffer)
+{
+    return cloxInitBufferReader(alloc(CloxBufferReader_t), buffer);
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderPeek(CloxBufferReader_t *const bufferReader)
+{
+    assert(bufferReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if (bufferReader->index < bufferReader->count)
+        result = bufferReader->array[bufferReader->index];
+    else
+        fail("index out of bounds", NULL);
+
+    return result;
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderNext(CloxBufferReader_t *const bufferReader)
+{
+    assert(bufferReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if (bufferReader->index < bufferReader->count)
+        result = bufferReader->array[bufferReader->index++];
+    else
+        fail("buffer overrun", NULL);
+
+    return result;
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxBufferReaderBack(CloxBufferReader_t *const bufferReader)
+{
+    assert(bufferReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if (bufferReader->index > 0)
+        result = bufferReader->array[--bufferReader->index];
+    else
+        fail("buffer underrun", NULL);
+
+    return result;
+}
+
+CLOX_API void CLOX_STDCALL cloxDeleteBufferReader(CloxBufferReader_t *const bufferReader)
+{
+    assert(bufferReader != NULL);
+
+    free(bufferReader->array);
+    free(bufferReader);
+
+    return;
+}
