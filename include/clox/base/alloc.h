@@ -129,7 +129,7 @@ CLOX_INLINE void *CLOX_STDCALL _check(void *const block, const char *const errMs
  * @param       N The new dimension of the array.
  * @return      A pointer to the new block of memory.
  */
-#   define redim(T, B, N) (T *)reloc(B, sizeof(T) * N)
+#   define redim(T, B, N) reloc(T, B, sizeof(T) * N)
 #endif
 
 /**
