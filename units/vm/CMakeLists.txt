@@ -1,5 +1,5 @@
-clox_add_unit_test(buffer
-	SOURCES "test_buffer.c"
+clox_add_unit_test(chunk
+	SOURCES "test_chunk.c"
 	DEPENDS vm
 )
 
