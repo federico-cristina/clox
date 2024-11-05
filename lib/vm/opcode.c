@@ -4,7 +4,7 @@
  * informations.
  */
 
-#include "clox/vm/opcodes.h"
+#include "clox/vm/opcode.h"
 #include "clox/base/defs.h"
 
 CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
