@@ -1,9 +1,11 @@
 set(HEADERS
     "buffer.h"
+    "opcode.h"
 )
 
 set(SOURCES
     "buffer.c"
+    "opcode.c"
 )
 
 clox_add_library(vm
