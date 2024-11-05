@@ -1,5 +1,7 @@
 #include "clox/vm/chunk.h"
 
+#include <stdio.h>
+
 int main()
 {
     CloxChunk_t *b = cloxCreateChunk(0);
@@ -23,18 +25,11 @@ int main()
     cloxChunkPush(b, 17);
     cloxChunkPush(b, 18);
 
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
-    cloxChunkPop(b);
+    CloxChunkReader_t *r = cloxCreateChunkReader(b);
+
+    while (!cloxChunkReaderIsAtEnd(r))
+        printf("%02X ", cloxChunkReaderGet(r));
+
+    cloxDeleteChunkReader(r, FALSE);
+    cloxDeleteChunk(b);
 }
