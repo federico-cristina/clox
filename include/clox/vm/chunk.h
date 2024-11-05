@@ -52,6 +52,8 @@ CLOX_API byte_t CLOX_STDCALL cloxChunkTop(const CloxChunk_t *const chunk);
 CLOX_API byte_t CLOX_STDCALL cloxChunkPop(CloxChunk_t *const chunk);
 CLOX_API byte_t CLOX_STDCALL cloxChunkGet(CloxChunk_t *const chunk, size_t index);
 
+CLOX_API CloxChunk_t *CLOX_STDCALL cloxChunkWrite(CloxChunk_t *const chunk, const byte_t *const buffer, size_t count);
+
 CLOX_API void CLOX_STDCALL cloxDeleteChunk(CloxChunk_t *const chunk);
 
 #pragma endregion

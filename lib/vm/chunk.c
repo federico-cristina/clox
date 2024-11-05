@@ -150,6 +150,18 @@ CLOX_API byte_t CLOX_STDCALL cloxChunkGet(CloxChunk_t *const chunk, size_t index
     return result;
 }
 
+CLOX_API CloxChunk_t *CLOX_STDCALL cloxChunkWrite(CloxChunk_t *const chunk, const byte_t *const buffer, size_t count)
+{
+    assert(chunk != NULL);
+
+    if ((chunk->count + count) >= chunk->capacity)
+        cloxChunkExpand(chunk, (chunk->count + count) - chunk->capacity);
+
+    bufcpy(chunk->array, buffer, count);
+
+    return chunk->count += count, chunk;
+}
+
 CLOX_API void CLOX_STDCALL cloxDeleteChunk(CloxChunk_t *const chunk)
 {
     assert(chunk != NULL);
