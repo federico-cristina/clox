@@ -15,10 +15,16 @@
  */
 
 #ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(name, opCode)
+#   define cloxDefineOpCode(opCode, opName, opMode)
 #endif
 
 /**
  * @brief       Return opcode. (ret)
  */
-cloxDefineOpCode(CLOX_OPCODE_RET,       "ret")
+cloxDefineOpCode(CLOX_OP_CODE_RET,      "ret",      CLOX_OP_MODE_NONE)
+
+/**
+ * @brief       Load Byte opcode, loads a single byte onto the evaluation
+ *              stack. (ldbyte)
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDBYTE,   "ldbyte",   CLOX_OP_MODE_BYTE)

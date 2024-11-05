@@ -4,30 +4,83 @@
  * informations.
  */
 
-#include "clox/base/errno.h"
-
 #include "clox/vm/opcodes.h"
+#include "clox/base/defs.h"
 
-CLOX_API const char *CLOX_STDCALL cloxGetOpCodeName(CloxOpCode_t opCode)
-{
-    switch (opCode)
+CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
+    [CLOX_OP_CODE_NOP] = {
+        .name = "nop",
+        .code = CLOX_OP_CODE_NOP,
+        .mode = CLOX_OP_MODE_NONE,
+    },
+
+#   ifndef cloxDefineOpCode
+#      define cloxDefineOpCode(opCode, opName, opMode) \
+    [opCode] = {                                       \
+        .name = opName,                                \
+        .code = opCode,                                \
+        .mode = opMode,                                \
+    },
+#   endif
+
+#   include CLOX_VM_OPCODES_INC_
+
+#   ifdef cloxDefineOpCode
+#       undef cloxDefineOpCode
+#   endif
+#else
     {
-    case CLOX_OPCODE_NOP:
-        return "nop";
+        .name = "nop",
+        .code = CLOX_OP_CODE_NOP,
+        .mode = CLOX_OP_MODE_NONE,
+    },
 
-#ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(name, opCode) \
-    case name:							  \
-        return opCode;
+#   ifndef cloxDefineOpCode
+#      define cloxDefineOpCode(opCode, opName, opMode) \
+    {                                                  \
+        .name = opName,                                \
+        .code = opCode,                                \
+        .mode = opMode,                                \
+    },
+#   endif
+
+#   include CLOX_VM_OPCODES_INC_
+
+#   ifdef cloxDefineOpCode
+#       undef cloxDefineOpCode
+#   endif
 #endif
+};
 
-#include CLOX_VM_OPCODES_INC_
+CLOX_API bool_t CLOX_STDCALL cloxGetOpCodeInfo(CloxOpCode_t opCode, CloxOpCodeInfo_t *const outOpCodeInfo)
+{
+    bool_t result;
 
-#ifdef cloxDefineOpCode
-#   undef cloxDefineOpCode
-#endif
+    if ((opCode < 0) || (opCode >= (sizeof(clox_OpCodeInfos) / sizeof(*clox_OpCodeInfos))))
+    {
+        if (outOpCodeInfo)
+        {
+            outOpCodeInfo->name = "uknown";
+            outOpCodeInfo->code = opCode;
+            outOpCodeInfo->mode = CLOX_OP_MODE_NONE;
+        }
 
-    default:
-        return unreach();
+        result = FALSE;
     }
+    else
+    {
+        if (outOpCodeInfo)
+        {
+            const CloxOpCodeInfo_t *const opCodeInfo = &clox_OpCodeInfos[opCode];
+
+            outOpCodeInfo->name = opCodeInfo->name;
+            outOpCodeInfo->code = opCodeInfo->code;
+            outOpCodeInfo->mode = opCodeInfo->mode;
+        }
+
+        result = TRUE;
+    }
+
+    return result;
 }

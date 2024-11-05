@@ -16,8 +16,29 @@
 #define CLOX_VM_OPCODES_H_
 
 #include "clox/base/api.h"
+#include "clox/base/bool.h"
 
 CLOX_C_HEADER_BEGIN
+
+/**
+ * @brief       Enumerates virtual machine's opcode arguments-taking mode.
+ */
+typedef enum _CloxOpMode
+{
+    /**
+     * @brief   OpCodes that have no arguments.
+     */
+    CLOX_OP_MODE_NONE,
+    /**
+     * @brief   OpCodes that takes a single byte as argument.
+     */
+    CLOX_OP_MODE_BYTE,
+    /**
+     * @brief   OpCodes that takes multiple bytes as argument, scanning them
+     *          from the bytecode.
+     */
+    CLOX_OP_MODE_SCAN,
+} CloxOpMode_t;
 
 #ifndef CLOX_VM_OPCODES_INC_
 /**
@@ -35,10 +56,10 @@ typedef enum _CloxOpCode
     /**
      * @brief   No Operation. (nop)
      */
-    CLOX_OPCODE_NOP = 0,
+    CLOX_OP_CODE_NOP = 0,
 
 #ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(name, opCode) name,
+#   define cloxDefineOpCode(opCode, opName, opMode) opCode,
 #endif
 
 #include CLOX_VM_OPCODES_INC_
@@ -48,7 +69,38 @@ typedef enum _CloxOpCode
 #endif
 } CloxOpCode_t;
 
-CLOX_API const char *CLOX_STDCALL cloxGetOpCodeName(CloxOpCode_t opCode);
+/**
+ * @brief       OpCode informations data structure.
+ */
+typedef struct _CloxOpCodeInfo
+{
+    /**
+     * @brief   A pointer to a constant string representing the operation
+     *          display name.
+     */
+    const char  *name;
+    /**
+     * @brief   An integer representing the operation code (opcode).
+     */
+    CloxOpCode_t code;
+    /**
+     * @brief   An integer representing the arguments-taking modality of
+     *          the operation.
+     */
+    CloxOpMode_t mode;
+} CloxOpCodeInfo_t;
+
+/**
+ * @brief       This function checks the validity of the specified opcode
+ *              and, when outOpCodeInfo parameter is not NULL sets its fields
+ *              with the opcode informations.
+ * 
+ * @param       opCode The opcode to check.
+ * @param       outOpCodeInfo A pointer to a CloxOpCodeInfo_t struct to store
+ *              opcode informations.
+ * @return      TRUE when the opcode is valid, FALSE instead.
+ */
+CLOX_API bool_t CLOX_STDCALL cloxGetOpCodeInfo(CloxOpCode_t opCode, CloxOpCodeInfo_t *const outOpCodeInfo);
 
 CLOX_C_HEADER_END
 
