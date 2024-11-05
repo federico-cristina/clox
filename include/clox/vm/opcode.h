@@ -45,7 +45,7 @@ typedef enum _CloxOpMode
  * @brief       This constant represents the inclusion path to 'opcode.inc'
  *              x-macro file.
  */
-#   define CLOX_VM_OPCODES_INC_ "clox/vm/opcodes.inc"
+#   define CLOX_VM_OPCODES_INC_ "clox/vm/opcode.inc"
 #endif
 
 /**
