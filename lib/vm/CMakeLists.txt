@@ -1,10 +1,10 @@
 set(HEADERS
-    "buffer.h"
+    "chunk.h"
     "opcode.h"
 )
 
 set(SOURCES
-    "buffer.c"
+    "chunk.c"
     "opcode.c"
 )
 
