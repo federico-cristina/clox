@@ -55,7 +55,7 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
 
 CLOX_API bool_t CLOX_STDCALL cloxGetOpCodeInfo(CloxOpCode_t opCode, CloxOpCodeInfo_t *const outOpCodeInfo)
 {
-    bool_t result;
+    CLOX_REGISTER bool_t result;
 
     if ((opCode < 0) || (opCode >= (sizeof(clox_OpCodeInfos) / sizeof(*clox_OpCodeInfos))))
     {
