@@ -83,7 +83,7 @@ CLOX_API size_t CLOX_STDCALL cloxChunkReaderRead(CloxChunkReader_t *const chunkR
 
 CLOX_INLINE bool_t CLOX_STDCALL cloxChunkReaderIsAtEnd(const CloxChunkReader_t *const chunkReader)
 {
-    return chunkReader->array && (chunkReader->index < chunkReader->count);
+    return assert(chunkReader != NULL), (chunkReader->index >= chunkReader->count);
 }
 
 CLOX_API void CLOX_STDCALL cloxDeleteChunkReader(CloxChunkReader_t *const chunkReader, bool_t cleanUpArray);
