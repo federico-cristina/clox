@@ -409,6 +409,28 @@ CLOX_INLINE CLOX_NORETURN void CLOX_CDECL _fail(const char *const format, ...)
 #   define notimpl() (fail("error: not implemented yet", NULL), NULL)
 #endif
 
+/* Common error messages */
+
+#ifndef CLOX_ERROR_MESSAGE_STACK_OVERFLOW
+#   define CLOX_ERROR_MESSAGE_STACK_OVERFLOW "stack overflow"
+#endif
+
+#ifndef CLOX_ERROR_MESSAGE_STACK_UNDERFLOW
+#   define CLOX_ERROR_MESSAGE_STACK_UNDERFLOW "stack underflow"
+#endif
+
+#ifndef CLOX_ERROR_MESSAGE_BUFFER_OVERRUN
+#   define CLOX_ERROR_MESSAGE_BUFFER_OVERRUN "buffer overrun"
+#endif
+
+#ifndef CLOX_ERROR_MESSAGE_BUFFER_UNDERRUN
+#   define CLOX_ERROR_MESSAGE_BUFFER_UNDERRUN "buffer underrun"
+#endif
+
+#ifndef CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS
+#   define CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS "index out of bounds"
+#endif
+
 #pragma endregion
 
 /**
