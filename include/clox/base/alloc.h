@@ -100,6 +100,38 @@ CLOX_INLINE void *CLOX_STDCALL _check(void *const block, const char *const errMs
 #   define dim(T, N) (T *)ccalloc(N, sizeof(T))
 #endif
 
+#ifndef CLOX_RELOC_ERROR_MESSAGE
+/**
+ * @brief       This constant represent the default error message printed on
+ *              the error stream when reallocation of a block fails.
+ */
+#   define CLOX_RELOC_ERROR_MESSAGE "cannot reallocate memory"
+#endif
+
+#ifndef reloc
+/**
+ * @brief       Reallocates a block of bytes.
+ * 
+ * @param       T The type to allocate.
+ * @param       B A pointer to the block to reallocate.
+ * @param       S The new size of the block.
+ * @return      A pointer to the new block of memory.
+ */
+#   define reloc(T, B, S) (T *)_check(realloc((void *)(B), (S)), CLOX_RELOC_ERROR_MESSAGE)
+#endif
+
+#ifndef redim
+/**
+ * @brief       Reallocates an array of block of bytes.
+ * 
+ * @param       T The type to allocate.
+ * @param       B A pointer to the block to reallocate.
+ * @param       N The new dimension of the array.
+ * @return      A pointer to the new block of memory.
+ */
+#   define redim(T, B, N) (T *)reloc(B, sizeof(T) * N)
+#endif
+
 /**
  * @brief       Frees a block of memory and sets its pointer to NULL.
  * 
