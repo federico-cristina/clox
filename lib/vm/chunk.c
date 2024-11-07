@@ -129,7 +129,7 @@ CLOX_API byte_t CLOX_STDCALL cloxChunkPop(CloxChunk_t *const chunk)
     CLOX_REGISTER byte_t result;
 
     if (chunk->count > 0)
-        result = chunk->array[chunk->count - 1];
+        result = chunk->array[--chunk->count];
     else
         fail(CLOX_ERROR_MESSAGE_BUFFER_UNDERRUN, NULL);
 
