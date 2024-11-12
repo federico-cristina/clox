@@ -145,7 +145,7 @@ CLOX_API byte_t CLOX_STDCALL cloxChunkGet(CloxChunk_t *const chunk, size_t index
     if (index < chunk->count)
         result = chunk->array[index];
     else
-        fail(CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS, NULL);
+        fail(CLOX_ERROR_MESSAGE_INDEX_OUT_OF_BOUNDS, NULL);
 
     return result;
 }
@@ -208,7 +208,7 @@ CLOX_API byte_t CLOX_STDCALL cloxChunkReaderTop(const CloxChunkReader_t *const c
     if (chunkReader->index < chunkReader->count)
         result = chunkReader->array[chunkReader->index];
     else
-        fail(CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS, NULL);
+        fail(CLOX_ERROR_MESSAGE_INDEX_OUT_OF_BOUNDS, NULL);
 
     return result;
 }
