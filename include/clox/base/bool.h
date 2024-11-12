@@ -52,6 +52,14 @@ typedef unsigned char bool_t;
 #   error TRUE must be true
 #endif
 
+#ifndef asBool
+/**
+ * @brief       This macro evaluates an expression and returns if that expression is
+                TRUE or FALSE, using right Boolean constants.
+ */
+#   define asBool(value) ((value) ? TRUE : FALSE)
+#endif
+
 CLOX_C_HEADER_END
 
 #endif /* CLOX_BASE_BOOL_H_ */
