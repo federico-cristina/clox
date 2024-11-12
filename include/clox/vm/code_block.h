@@ -33,6 +33,13 @@
 CLOX_C_HEADER_BEGIN
 
 /**
+ * @defgroup    CODE_BLOCK Code Block
+ * @{
+ */
+
+#pragma region Code Block
+
+/**
  * @brief       This data structure provides a dynamic container to store a
  *              block of bytecode (so a dynamic sequence of bytes).
  */
@@ -192,6 +199,12 @@ CLOX_API const byte_t *CLOX_STDCALL cloxCodeBlockWrite(CloxCodeBlock_t *const co
  * @param       codeBlock A pointer to the CloxCodeBlock_t instance to delete.
  */
 CLOX_API void CLOX_STDCALL cloxDeleteCodeBlock(CloxCodeBlock_t *const codeBlock);
+
+#pragma endregion
+
+/**
+ * @}
+ */
 
 CLOX_C_HEADER_END
 
