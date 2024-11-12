@@ -125,6 +125,13 @@
 #   define CLOX_PAGESIZ 4096
 #endif
 
+#ifndef alignto
+/**
+ * @brief       Gets an aligned number.
+ */
+#   define alignto(size, alignment) ((size + alignment - 1) & ~(alignment - 1))
+#endif
+
 CLOX_C_HEADER_BEGIN
 
 /**
