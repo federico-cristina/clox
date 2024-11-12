@@ -427,8 +427,8 @@ CLOX_INLINE CLOX_NORETURN void CLOX_CDECL _fail(const char *const format, ...)
 #   define CLOX_ERROR_MESSAGE_BUFFER_UNDERRUN "buffer underrun"
 #endif
 
-#ifndef CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS
-#   define CLOX_ERROR_MESSAGE_BUFFER_INDEX_OUT_OF_BOUNDS "index out of bounds"
+#ifndef CLOX_ERROR_MESSAGE_INDEX_OUT_OF_BOUNDS
+#   define CLOX_ERROR_MESSAGE_INDEX_OUT_OF_BOUNDS "index out of bounds"
 #endif
 
 #pragma endregion
