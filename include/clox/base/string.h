@@ -24,6 +24,10 @@
 #include "clox/base/bool.h"
 #include "clox/base/alloc.h"
 
+#if CLOX_C_STANDARD < CLOX_C_STANDARD_C99
+#   include "clox/base/bits.h"
+#endif
+
 #include <string.h>
 
 CLOX_C_HEADER_BEGIN
@@ -360,15 +364,24 @@ CLOX_INLINE char *CLOX_STDCALL vstrfmt(const char *const format, va_list arglist
     if (!format)
         return NULL;
 
+    char *result;
+
+#if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
     int size = vsnprintf(NULL, 0, format, arglist);
 
     if (!size)
         failno("cannot format an empty string");
 
-    char *result = stralloc(size);
+    result = stralloc(size);
 
     if (vsprintf(result, format, arglist) != size)
         fail("error: formatted string sizes doesn't match", NULL);
+#else
+    char temp[CLOX_PAGESIZ] = { NUL };
+    long size = vsprintf(temp, format, arglist);
+
+    result = strnget(temp, size);
+#endif
 
     return result;
 }
