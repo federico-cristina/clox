@@ -6,7 +6,7 @@
  * The content of this file is derived from the utf8proc
  * library:
  *
- * https://github.com/JuliaStrings/utf8proc.git
+ * https:
  */
 
 #include "clox/base/errno.h"
@@ -119,22 +119,21 @@ ssize_t CLOX_STDCALL utf8_iterate(
         *dst = uc;
         return 1;
     }
-    // Must be between 0xc2 and 0xf4 inclusive to be valid
     if ((uint32_t)(uc - 0xc2) > (0xf4 - 0xc2))
         return UTF8_ERROR_INVALIDUTF8;
     if (uc < 0xe0)
-    { // 2-byte sequence
-        // Must have valid continuation character
+    { 
+        
         if (str >= end || !utf_cont(*str))
             return UTF8_ERROR_INVALIDUTF8;
         *dst = ((uc & 0x1f) << 6) | (*str & 0x3f);
         return 2;
     }
     if (uc < 0xf0)
-    { // 3-byte sequence
+    { 
         if ((str + 1 >= end) || !utf_cont(*str) || !utf_cont(str[1]))
             return UTF8_ERROR_INVALIDUTF8;
-        // Check for surrogate chars
+        
         if (uc == 0xed && *str > 0x9f)
             return UTF8_ERROR_INVALIDUTF8;
         uc = ((uc & 0xf) << 12) | ((*str & 0x3f) << 6) | (str[1] & 0x3f);
@@ -143,11 +142,11 @@ ssize_t CLOX_STDCALL utf8_iterate(
         *dst = uc;
         return 3;
     }
-    // 4-byte sequence
-    // Must have 3 valid continuation characters
+    
+    
     if ((str + 2 >= end) || !utf_cont(*str) || !utf_cont(str[1]) || !utf_cont(str[2]))
         return UTF8_ERROR_INVALIDUTF8;
-    // Make sure in correct range (0x10000 - 0x10ffff)
+    
     if (uc == 0xf0)
     {
         if (*str < 0x90)
@@ -183,8 +182,8 @@ ssize_t CLOX_STDCALL utf8_encode_char(int32_t uc, uint8_t *dst)
         dst[0] = (uint8_t)(0xC0 + (uc >> 6));
         dst[1] = (uint8_t)(0x80 + (uc & 0x3F));
         return 2;
-        // Note: we allow encoding 0xd800-0xdfff here, so as not to change
-        // the API, however, these are actually invalid in UTF-8
+        
+        
     }
     else if (uc < 0x10000)
     {
@@ -263,7 +262,7 @@ const utf8_property_t *CLOX_STDCALL utf8_get_property(int32_t uc)
    (according to the definition of extended grapheme clusters)
 
   Rule numbering refers to TR29 Version 29 (Unicode 9.0.0):
-  http://www.unicode.org/reports/tr29/tr29-29.html
+  http:
 
   CAVEATS:
    Please note that evaluation of GB10 (grapheme breaks between emoji zwj sequences)
@@ -276,48 +275,48 @@ const utf8_property_t *CLOX_STDCALL utf8_get_property(int32_t uc)
 */
 CLOX_STATIC bool_t CLOX_STDCALL grapheme_break_simple(int lbc, int tbc)
 {
-    return (lbc == UTF8_BOUNDCLASS_START) ? TRUE : // GB1
-               (lbc == UTF8_BOUNDCLASS_CR &&       // GB3
+    return (lbc == UTF8_BOUNDCLASS_START) ? TRUE : 
+               (lbc == UTF8_BOUNDCLASS_CR &&       
                 tbc == UTF8_BOUNDCLASS_LF)
                ? FALSE
-               : // ---
+               : 
                (lbc >= UTF8_BOUNDCLASS_CR && lbc <= UTF8_BOUNDCLASS_CONTROL) ? TRUE
-                                                                             : // GB4
+                                                                             : 
                (tbc >= UTF8_BOUNDCLASS_CR && tbc <= UTF8_BOUNDCLASS_CONTROL) ? TRUE
-                                                                             : // GB5
-               (lbc == UTF8_BOUNDCLASS_L &&                                    // GB6
-                (tbc == UTF8_BOUNDCLASS_L ||                                   // ---
-                 tbc == UTF8_BOUNDCLASS_V ||                                   // ---
-                 tbc == UTF8_BOUNDCLASS_LV ||                                  // ---
+                                                                             : 
+               (lbc == UTF8_BOUNDCLASS_L &&                                    
+                (tbc == UTF8_BOUNDCLASS_L ||                                   
+                 tbc == UTF8_BOUNDCLASS_V ||                                   
+                 tbc == UTF8_BOUNDCLASS_LV ||                                  
                  tbc == UTF8_BOUNDCLASS_LVT))
                ? FALSE
-               :                              // ---
-               ((lbc == UTF8_BOUNDCLASS_LV || // GB7
-                 lbc == UTF8_BOUNDCLASS_V) && // ---
-                (tbc == UTF8_BOUNDCLASS_V ||  // ---
+               :                              
+               ((lbc == UTF8_BOUNDCLASS_LV || 
+                 lbc == UTF8_BOUNDCLASS_V) && 
+                (tbc == UTF8_BOUNDCLASS_V ||  
                  tbc == UTF8_BOUNDCLASS_T))
                ? FALSE
-               :                               // ---
-               ((lbc == UTF8_BOUNDCLASS_LVT || // GB8
-                 lbc == UTF8_BOUNDCLASS_T) &&  // ---
+               :                               
+               ((lbc == UTF8_BOUNDCLASS_LVT || 
+                 lbc == UTF8_BOUNDCLASS_T) &&  
                 tbc == UTF8_BOUNDCLASS_T)
                ? FALSE
-               :                                      // ---
-               (tbc == UTF8_BOUNDCLASS_EXTEND ||      // GB9
-                tbc == UTF8_BOUNDCLASS_ZWJ ||         // ---
-                tbc == UTF8_BOUNDCLASS_SPACINGMARK || // GB9a
+               :                                      
+               (tbc == UTF8_BOUNDCLASS_EXTEND ||      
+                tbc == UTF8_BOUNDCLASS_ZWJ ||         
+                tbc == UTF8_BOUNDCLASS_SPACINGMARK || 
                 lbc == UTF8_BOUNDCLASS_PREPEND)
                ? FALSE
-               :                                // GB9b
-               (lbc == UTF8_BOUNDCLASS_E_ZWG && // GB11 (requires additional handling below)
+               :                                
+               (lbc == UTF8_BOUNDCLASS_E_ZWG && 
                 tbc == UTF8_BOUNDCLASS_EXTENDED_PICTOGRAPHIC)
                ? FALSE
-               :                                             // ----
-               (lbc == UTF8_BOUNDCLASS_REGIONAL_INDICATOR && // GB12/13 (requires additional handling below)
+               :                                             
+               (lbc == UTF8_BOUNDCLASS_REGIONAL_INDICATOR && 
                 tbc == UTF8_BOUNDCLASS_REGIONAL_INDICATOR)
                ? FALSE
-               :     // ----
-               TRUE; // GB999
+               :     
+               TRUE; 
 }
 
 CLOX_STATIC bool_t CLOX_STDCALL grapheme_break_extended(int lbc, int tbc, int licb, int ticb, int32_t *state)
@@ -332,35 +331,35 @@ CLOX_STATIC bool_t CLOX_STDCALL grapheme_break_extended(int lbc, int tbc, int li
         }
         else
         {                             /* lbc and licb are already encoded in *state */
-            state_bc = *state & 0xff; // 1st byte of state is bound class
-            state_icb = *state >> 8;  // 2nd byte of state is indic conjunct break
+            state_bc = *state & 0xff; 
+            state_icb = *state >> 8;  
         }
 
         bool_t break_permitted = grapheme_break_simple(state_bc, tbc) &&
-                                 !(state_icb == UTF8_INDIC_CONJUNCT_BREAK_LINKER && ticb == UTF8_INDIC_CONJUNCT_BREAK_CONSONANT); // GB9c
+                                 !(state_icb == UTF8_INDIC_CONJUNCT_BREAK_LINKER && ticb == UTF8_INDIC_CONJUNCT_BREAK_CONSONANT); 
 
-        // Special support for GB9c.  Don't break between two consonants
-        // separated 1+ linker characters and 0+ extend characters in any order.
-        // After a consonant, we enter LINKER state after at least one linker.
+        
+        
+        
         if (ticb == UTF8_INDIC_CONJUNCT_BREAK_CONSONANT || state_icb == UTF8_INDIC_CONJUNCT_BREAK_CONSONANT || state_icb == UTF8_INDIC_CONJUNCT_BREAK_EXTEND)
             state_icb = ticb;
         else if (state_icb == UTF8_INDIC_CONJUNCT_BREAK_LINKER)
             state_icb = ticb == UTF8_INDIC_CONJUNCT_BREAK_EXTEND ? UTF8_INDIC_CONJUNCT_BREAK_LINKER : ticb;
 
-        // Special support for GB 12/13 made possible by GB999. After two RI
-        // class codepoints we want to force a break. Do this by resetting the
-        // second RI's bound class to UTF8_BOUNDCLASS_OTHER, to force a break
-        // after that character according to GB999 (unless of course such a break is
-        // forbidden by a different rule such as GB9).
+        
+        
+        
+        
+        
         if (state_bc == tbc && tbc == UTF8_BOUNDCLASS_REGIONAL_INDICATOR)
             state_bc = UTF8_BOUNDCLASS_OTHER;
-        // Special support for GB11 (emoji extend* zwj / emoji)
+        
         else if (state_bc == UTF8_BOUNDCLASS_EXTENDED_PICTOGRAPHIC)
         {
-            if (tbc == UTF8_BOUNDCLASS_EXTEND) // fold EXTEND codepoints into emoji
+            if (tbc == UTF8_BOUNDCLASS_EXTEND) 
                 state_bc = UTF8_BOUNDCLASS_EXTENDED_PICTOGRAPHIC;
             else if (tbc == UTF8_BOUNDCLASS_ZWJ)
-                state_bc = UTF8_BOUNDCLASS_E_ZWG; // state to record emoji+zwg combo
+                state_bc = UTF8_BOUNDCLASS_E_ZWG; 
             else
                 state_bc = tbc;
         }

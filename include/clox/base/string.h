@@ -160,13 +160,15 @@ CLOX_INLINE char *CLOX_STDCALL strget(const char *const str)
     return result;
 }
 
-/// @brief Moves characters from source string into destination
-///        buffer. If the destination buffer is NULL will be allocated
-///        a new buffer.
-/// @param dest Destination buffer.
-/// @param src Source string.
-/// @return A pointer to the destination buffer or to the first
-///         character of the new allocated buffer.
+/**
+ * @brief       Moves characters from source string into destination buffer. If the
+ *              destination buffer is NULL will be allocated a new buffer.
+ * 
+ * @param       dest Destination buffer.
+ * @param       src Source string.
+ * @return      A pointer to the destination buffer or to the first character of the
+ *              new allocated buffer.
+ */
 CLOX_INLINE char *CLOX_STDCALL strmov(char *const dest, const char *const src)
 {
     CLOX_REGISTER size_t length;
@@ -179,13 +181,16 @@ CLOX_INLINE char *CLOX_STDCALL strmov(char *const dest, const char *const src)
     return strnmov(dest, src, length);
 }
 
-/// @brief Converts a source string into its lower-case version
-///        and writes the result into a destination buffer or, if
-///        that one is NULL, into a new allocated buffer.
-/// @param dest Destination buffer.
-/// @param src Source string.
-/// @return A pointer to the destination buffer or to the first
-///         character of the new allocated buffer.
+/**
+ * @brief       Converts a source string into its lower-case version and writes the result
+ *              into a destination buffer or, if that one is NULL, into a new allocated
+ *              buffer.
+ * 
+ * @param       dest Destination buffer.
+ * @param       src Source string.
+ * @return      A pointer to the destination buffer or to the first character of the new
+ *              allocated buffer.
+ */
 CLOX_INLINE char *CLOX_STDCALL strlow(char *const dest, const char *const src)
 {
     CLOX_REGISTER size_t length;
@@ -198,13 +203,15 @@ CLOX_INLINE char *CLOX_STDCALL strlow(char *const dest, const char *const src)
     return strnlow(dest, src, length);
 }
 
-/// @brief Converts a source string into its upper-case version
-///        and writes the result into a destination buffer or, if
-///        that one is NULL, into a new allocated buffer.
-/// @param dest Destination buffer.
-/// @param src Source string.
-/// @return A pointer to the destination buffer or to the first
-///         character of the new allocated buffer.
+/**
+ * @brief       Converts a source string into its upper-case version and writes the result
+ *              into a destination buffer or, if that one is NULL, into a new allocated buffer.
+ * 
+ * @param       dest Destination buffer.
+ * @param       src Source string.
+ * @return      A pointer to the destination buffer or to the first character of the new
+ *              allocated buffer.
+ */
 CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
 {
     CLOX_REGISTER size_t length;
