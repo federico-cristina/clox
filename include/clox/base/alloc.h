@@ -40,10 +40,14 @@ CLOX_C_HEADER_BEGIN
  */
 CLOX_INLINE void *CLOX_STDCALL _check(void *const block, const char *const errMsg)
 {
+    CLOX_REGISTER void *result = NULL;
+
     if (!block)
-        return failno(errMsg);
+        fail("fatal error: %s", errMsg);
     else
-        return block;
+        result = block;
+
+    return result;
 }
 
 #ifndef CLOX_ALLOC_ERROR_MESSAGE
@@ -141,10 +145,7 @@ CLOX_INLINE void *CLOX_STDCALL _check(void *const block, const char *const errMs
 CLOX_INLINE void CLOX_STDCALL _dealloc(void **blockRef)
 {
     if (blockRef && *blockRef)
-    {
-        free(*blockRef);
-        *blockRef = NULL;
-    }
+        free(*blockRef), *blockRef = NULL;
 
     return;
 }
@@ -255,13 +256,6 @@ CLOX_INLINE void *CLOX_STDCALL freeret(void **toFree, void *retValue)
  * @return      A pointer to the new block of memory.
  */
 #   define stackdim(T, N) (T *)calloca((N), sizeof(T))
-#endif
-
-#ifndef alignto
-/**
- * @brief       Gets an aligned number.
- */
-#   define alignto(size, alignment) ((size + alignment - 1) & ~(alignment - 1))
 #endif
 
 CLOX_C_HEADER_END
