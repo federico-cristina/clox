@@ -13,6 +13,7 @@ int main()
 
     CloxCodeBlock_t block;
 
-    cloxInitCodeBlockReaderFromBuffer(&block, program, countof(program));
+    cloxInitCodeBlock(&block, 0);
+    cloxCodeBlockWrite(&block, (const byte_t *)program, countof(program));
     cloxDisassembleCodeBlock(stdout, &block);
 }
