@@ -177,7 +177,7 @@ CLOX_API const byte_t *CLOX_STDCALL cloxCodeBlockWrite(CloxCodeBlock_t *const co
 
     bufcpy(codeBlock->array, buffer, count);
 
-    return buffer;
+    return codeBlock->count += count, buffer;
 }
 
 CLOX_API void CLOX_STDCALL cloxDeleteCodeBlock(CloxCodeBlock_t *const codeBlock)
