@@ -191,3 +191,124 @@ CLOX_API void CLOX_STDCALL cloxDeleteCodeBlock(CloxCodeBlock_t *const codeBlock)
     
     return;
 }
+
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxInitCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const CloxCodeBlock_t *const codeBlock)
+{
+    assert(codeBlockReader != NULL && codeBlock != NULL);
+
+    codeBlockReader->array = codeBlock->array;
+    codeBlockReader->count = codeBlock->count;
+    codeBlockReader->index = 0;
+
+    return codeBlockReader;
+}
+
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxInitCodeBlockReaderFromBuffer(CloxCodeBlockReader_t *const codeBlockReader, const byte_t *const buffer, const size_t count)
+{
+    assert(codeBlockReader != NULL && buffer != NULL);
+
+    codeBlockReader->array = buffer;
+    codeBlockReader->count = count;
+    codeBlockReader->index = 0;
+
+    return codeBlockReader;
+}
+
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxFreeCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const bool_t freeArray)
+{
+    assert(codeBlockReader != NULL);
+
+    if (freeArray && codeBlockReader->count)
+        free(codeBlockReader->array);
+
+    codeBlockReader->array = NULL;
+    codeBlockReader->count = 0;
+    codeBlockReader->index = 0;
+
+    return codeBlockReader;
+}
+
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxCreateCodeBlockReader(const CloxCodeBlock_t *const codeBlock)
+{
+    return cloxInitCodeBlockReader(alloc(CloxCodeBlockReader_t), codeBlock);
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderGet(CloxCodeBlockReader_t *const codeBlockReader)
+{
+    assert(codeBlockReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if (codeBlockReader->index < codeBlockReader->count)
+        result = codeBlockReader->array[codeBlockReader->index++];
+    else
+        fail(CLOX_ERROR_MESSAGE_BUFFER_OVERRUN, NULL);
+
+    return result;
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderTop(const CloxCodeBlockReader_t *const codeBlockReader)
+{
+    assert(codeBlockReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if (codeBlockReader->index < codeBlockReader->count)
+        result = codeBlockReader->array[codeBlockReader->index];
+    else
+        fail(CLOX_ERROR_MESSAGE_BUFFER_OVERRUN, NULL);
+
+    return result;
+}
+
+CLOX_API size_t CLOX_STDCALL cloxCodeBlockReaderRead(CloxCodeBlockReader_t *const codeBlockReader, byte_t *const outBuffer, const size_t count)
+{
+    assert(codeBlockReader != NULL);
+
+    CLOX_REGISTER size_t readCount, i, n;
+
+    if (outBuffer)
+    {
+        i = codeBlockReader->index;
+        n = codeBlockReader->count;
+
+        CLOX_REGISTER byte_t *array = codeBlockReader->array;
+
+        for (readCount = 0; (readCount < count) && (i < n); readCount++, i++)
+            outBuffer[readCount] = array[i + readCount];
+
+        codeBlockReader->index = i;
+    }
+    else
+    {
+        readCount = 0;
+    }
+
+    return readCount;
+}
+
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderPeek(const CloxCodeBlockReader_t *const codeBlockReader, const uint32_t offset)
+{
+    assert(codeBlockReader != NULL);
+
+    CLOX_REGISTER byte_t result;
+
+    if ((codeBlockReader->index + offset) < codeBlockReader->count)
+        result = codeBlockReader->array[codeBlockReader->index + offset];
+    else
+        fail(CLOX_ERROR_MESSAGE_INDEX_OUT_OF_BOUNDS, NULL);
+
+    return result;
+}
+
+CLOX_API void CLOX_STDCALL cloxDeleteCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const bool_t freeArray)
+{
+    assert(codeBlockReader != NULL);
+
+    if (freeArray)
+        free(codeBlockReader->array);
+
+    free(codeBlockReader);
+
+    return;
+}

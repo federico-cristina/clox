@@ -204,6 +204,179 @@ CLOX_API void CLOX_STDCALL cloxDeleteCodeBlock(CloxCodeBlock_t *const codeBlock)
 
 /**
  * @}
+ * 
+ * @defgroup    CODE_BLOCK_READER Code Block Reader
+ * @{
+ */
+
+#pragma region Code Block Reader
+
+/**
+ * @brief       This data structure provides a CloxCodeBlock_t byte reader
+ *              to run CloxCodeBlock_t data checking bounds.
+ * 
+ * @note        This data structure is designed to work with a CloxCodeBlock_t
+ *              instance, but it can be used also with a common array of
+ *              bytes with the cloxInitCodeBlockReaderFromBuffer function.
+ */
+typedef struct _CloxCodeBlockReader
+{
+    /**
+     * @brief   A pointer to the internal byte array to read, ususally imported
+     *          from a CloxCodeBlock_t.
+     * 
+     * @note    On delete and free operations resources used by this array are
+     *          released only if specified, since (as said before) this pointer
+     *          is usually shared with a CloxCodeBlock_t instance.
+     */
+    byte_t *array;
+    /**
+     * @brief   The maximum number of bytes that can be ridden (usually is equal
+     *          to the size of the array).
+     */
+    size_t  count;
+    /**
+     * @brief   The number of alredy ridden items from the array (the current
+     *          position).
+     */
+    size_t  index;
+} CloxCodeBlockReader_t;
+
+/**
+ * @brief       This function initializes a CloxCodeBlockReader_t instance using
+ *              a CloxCodeBlock_t instance's data.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              to initialize.
+ * @param       codeBlock A pointer to the CloxCodeBlock_t instance from which
+ *              inherit data.
+ * @return      On success this function returns a pointer to the initialized
+ *              CloxCodeBlockReader_t instance (so the value of codeBlockReader
+ *              parameter).
+ */
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxInitCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const CloxCodeBlock_t *const codeBlock);
+/**
+ * @brief       This function initializes a CloxCodeBlockReader_t instace using
+ *              a pointer to a raw sequence of bytes into the memory.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              to initialize.
+ * @param       buffer A pointer to the sequence of bytes to read.
+ * @param       count The number of bytes into the above specified sequence.
+ * @return      On success this function returns a pointer to the initialized
+ *              CloxCodeBlockReader_t instance (so the value of codeBlockReader
+ *              parameter).
+ */
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxInitCodeBlockReaderFromBuffer(CloxCodeBlockReader_t *const codeBlockReader, const byte_t *const buffer, const size_t count);
+/**
+ * @brief       This function releases resources used by a CloxCodeBlockReader_t
+ *              instance, except for the internal byte buffer which eliminination
+ *              must be specified with the freeArray parameter.
+ * 
+ * @note        Use this function combined to cloxInitCodeBlockReader or with
+ *              cloxInitCodeBlockReaderFromBuffer functions.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              to free.
+ * @param       freeArray When set to TRUE, this flag, specifies that the internal
+ *              byte array can be released and deleted.
+ * @return      On success this function returns a pointer to the freed empty
+ *              CloxCodeBlockReader_t instance (so the value of codeBlockReader
+ *              parameter).
+ */
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxFreeCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const bool_t freeArray);
+
+/**
+ * @brief       This function allocates on the haep a new CloxCodeBlockReader_t
+ *              instance and initializes it using the specified CloxCodeBlock_t
+ *              instance's data.
+ * 
+ * @param       codeBlock A pointer to the CloxCodeBlock_t instance from which
+ *              inherit data.
+ * @return      On success this function returns a pointer to the just allocated
+ *              CloxCodeBlockReader_t instance.
+ */
+CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxCreateCodeBlockReader(const CloxCodeBlock_t *const codeBlock);
+
+/**
+ * @brief       This function gets the next byte and increases the positional
+ *              index.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              from which read the next byte.
+ * @return      On success this function returns the next byte in the sequence,
+ *              but on failure it raises a fatal error.
+ * 
+ * @exception   Buffer overrun
+ */
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderGet(CloxCodeBlockReader_t *const codeBlockReader);
+/**
+ * @brief       This function gets the next byte and without increasing the
+ *              positional index.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              from which peeks the next byte.
+ * @return      On success this function returns the top byte in the sequence,
+ *              but on failure it raises a fatal error.
+ * 
+ * @exception   Buffer overrun
+ */
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderTop(const CloxCodeBlockReader_t *const codeBlockReader);
+
+/**
+ * @brief       This function read a sequence of bytes from the specified code
+ *              block reader writing it into the specified buffer.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              from which read.
+ * @param       outBuffer A pointer to the buffer into which write the read bytes.
+ * @param       count The maximun number of bytes to read.
+ * @return      On success this function returns the number of bytes ridden.
+ */
+CLOX_API size_t CLOX_STDCALL cloxCodeBlockReaderRead(CloxCodeBlockReader_t *const codeBlockReader, byte_t *const outBuffer, const size_t count);
+/**
+ * @brief       This function peeks a byte with a specific offset.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              from which peek.
+ * @param       offset The offset of the byte to peek.
+ * @return      On success this function returns the byte at the specified offset.
+ */
+CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderPeek(const CloxCodeBlockReader_t *const codeBlockReader, const uint32_t offset);
+
+/**
+ * @brief       This function checks if a specified CloxCodeBlockReader_t
+ *              instace has reached the end of the internal buffer.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instace
+ *              to check.
+ * @return      When the CloxCodeBlockReader_t is at the end this function
+ *              returns TRUE, FALSE in other cases.
+ */
+CLOX_INLINE bool_t CLOX_STDCALL cloxCodeBlockReaderIsAtEnd(const CloxCodeBlockReader_t *const codeBlockReader)
+{
+    return assert(codeBlockReader != NULL), codeBlockReader->index < codeBlockReader->count;
+}
+
+/**
+ * @brief       This function deletes a CloxCodeBlockReader_t instance allocated
+ *              into the heap, except for the internal byte buffer which
+ *              eliminination must be specified with the freeArray parameter.
+ * 
+ * @note        Use this function combined only with cloxCreateCodeBlockReader
+ *              function.
+ * 
+ * @param       codeBlockReader A pointer to the CloxCodeBlockReader_t instance
+ *              to delete.
+ * @param       freeArray When set to TRUE, this flag, specifies that the internal
+ *              byte array can be released and deleted.
+ */
+CLOX_API void CLOX_STDCALL cloxDeleteCodeBlockReader(CloxCodeBlockReader_t *const codeBlockReader, const bool_t freeArray);
+
+#pragma endregion
+
+/**
+ * @}
  */
 
 CLOX_C_HEADER_END
