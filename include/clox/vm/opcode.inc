@@ -1,5 +1,5 @@
 /**                                                                     -*- C -*-
- * @file        opcodes.inc
+ * @file        opcode.inc
  *
  * @author      Federico Cristina <federico.cristina@outlook.it>
  *
@@ -15,16 +15,36 @@
  */
 
 #ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(opCode, opName, opMode)
+#   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
 #endif
 
-/**
- * @brief       Return opcode. (ret)
- */
-cloxDefineOpCode(CLOX_OP_CODE_RET,      "ret",      CLOX_OP_MODE_NONE)
+/* =---- Status Control OpCodes --------------------------------= */
 
 /**
- * @brief       Load Byte opcode, loads a single byte onto the evaluation
- *              stack. (ldbyte)
+ * @brief       Represents 'break' opcode (breakpoint).
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDBYTE,   "ldbyte",   CLOX_OP_MODE_BYTE)
+cloxDefineOpCode(CLOX_OP_CODE_BREAK,    0x01,   "break",    CLOX_OP_MODE_NONE)
+/**
+ * @brief       Represents 'abort' opcode (aborts execution).
+ */
+cloxDefineOpCode(CLOX_OP_CODE_ABORT,    0x02,   "abort",    CLOX_OP_MODE_NONE)
+/**
+ * @brief       Represents 'exit' opcode (exits execution with an exit code).
+ */
+cloxDefineOpCode(CLOX_OP_CODE_EXIT,     0x03,   "exit",     CLOX_OP_MODE_BYTE)
+/**
+ * @brief       Represents 'raise' opcode (raises a signal).
+ */
+cloxDefineOpCode(CLOX_OP_CODE_RAISE,    0x04,   "raise",    CLOX_OP_MODE_BYTE)
+
+/* =------------------------------------------------------------= */
+
+/**
+ * @brief       Represents 'ret' opcode (return).
+ */
+cloxDefineOpCode(CLOX_OP_CODE_RET, 0xF0,      "ret",      CLOX_OP_MODE_NONE)
+
+/**
+ * @brief       Represents 'ldbyte' opcode (loada a byte).
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDBYTE, 0xF1,   "ldbyte",   CLOX_OP_MODE_BYTE)
