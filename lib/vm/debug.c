@@ -6,18 +6,24 @@
 
 #include "clox/base/errno.h"
 #include "clox/base/file.h"
-
 #include "clox/vm/debug.h"
 #include "clox/vm/opcode.h"
 
-CLOX_INLINE void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxChunkReader_t *const chunkReader)
+#ifndef CLOX_DISASSEMBLER_OFFSET_FORMAT
+#   if CLOX_ARCHTECT_IS_64_BIT
+#       define CLOX_DISASSEMBLER_OFFSET_FORMAT "%08X"
+#   else
+#       define CLOX_DISASSEMBLER_OFFSET_FORMAT "%04X"
+#   endif
+#endif
+
+CLOX_STATIC void CLOX_STDCALL clox_DisassembleInstruction(FILE *const stream, CloxCodeBlockReader_t *const codeBlockReader)
 {
-    CLOX_REGISTER CloxOpCode_t opCode = cloxChunkReaderGet(chunkReader);
     CloxOpCodeInfo_t opCodeInfo;
 
-    if (cloxGetOpCodeInfo(opCode, &opCodeInfo))
+    if (cloxGetOpCodeInfo(cloxCodeBlockReaderGet(codeBlockReader), &opCodeInfo))
     {
-        fprintf(stream, "%08X %-16s", (uint32_t)chunkReader->index - 1, opCodeInfo.name);
+        fprintf(stream, CLOX_DISASSEMBLER_OFFSET_FORMAT " %-16s", (uint32_t)codeBlockReader->index - 1, opCodeInfo.name);
 
         switch (opCodeInfo.mode)
         {
@@ -25,7 +31,7 @@ CLOX_INLINE void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, Clo
             break;
 
         case CLOX_OP_MODE_BYTE:
-            fprintf(stream, " %02X", cloxChunkReaderGet(chunkReader));
+            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
             break;
 
         case CLOX_OP_MODE_SCAN:
@@ -37,7 +43,7 @@ CLOX_INLINE void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, Clo
     }
     else
     {
-        fprintf(stream, "%08X uknown (%02X)", (uint32_t)chunkReader->index - 1, opCodeInfo.code);
+        fprintf(stream, CLOX_DISASSEMBLER_OFFSET_FORMAT " uknown (%02X)", (uint32_t)codeBlockReader->index - 1, opCodeInfo.code);
     }
 
     fputc(EOL, stream);
@@ -45,16 +51,16 @@ CLOX_INLINE void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, Clo
     return;
 }
 
-CLOX_API void CLOX_STDCALL cloxDisassembleChunk(FILE *const stream, const CloxChunk_t *const chunk)
+CLOX_API void CLOX_STDCALL cloxDisassembleCodeBlock(FILE *const stream, const CloxCodeBlock_t *const codeBlock)
 {
     assert(stream != NULL);
 
-    CloxChunkReader_t chunkReader;
+    CloxCodeBlockReader_t codeBlockReader;
 
-    if (cloxInitChunkReader(&chunkReader, chunk)->array)
+    if (cloxInitCodeBlockReader(&codeBlockReader, codeBlock)->array)
     {
-        while (!cloxChunkReaderIsAtEnd(&chunkReader))
-            fputs("  ", stream), cloxDisassembleInstruction(stream, &chunkReader);
+        while (!cloxCodeBlockReaderIsAtEnd(&codeBlockReader))
+            fputs("  ", stream), clox_DisassembleInstruction(stream, &codeBlockReader);
     }
 
     return;

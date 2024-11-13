@@ -10,18 +10,31 @@
  *              This file is part of the clox programming language project,
  *              under the MIT License. See repo's LICENSE file for license
  *              informations.
+ * 
+ * @brief       In this header are defined tool function to get debugging
+ *              informations from the virtual machine and from the bytecode.
  */
 
 #ifndef CLOX_VM_DEBUG_H_
 #define CLOX_VM_DEBUG_H_
 
-#include "clox/vm/chunk.h"
+#include "clox/vm/code_block.h"
 
 #include <stdio.h>
 
 CLOX_C_HEADER_BEGIN
 
-CLOX_API void CLOX_STDCALL cloxDisassembleChunk(FILE *const stream, const CloxChunk_t *const chunk);
+/**
+ * @brief       This function disassembles the bytecode stored into a specific
+ *              CloxCodeBlock_t instance, printing disassembled data into a
+ *              FILE stream.
+ * 
+ * @param       stream A pointer to the FILE stream handler to which print the
+ *              disassembled data.
+ * @param       codeBlock A pointer to the CloxCodeBlock_t instance to from which
+ *              disassemble bytecode.
+ */
+CLOX_API void CLOX_STDCALL cloxDisassembleCodeBlock(FILE *const stream, const CloxCodeBlock_t *const codeBlock);
 
 CLOX_C_HEADER_END
 
