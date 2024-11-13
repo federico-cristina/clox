@@ -60,7 +60,7 @@ CLOX_API void CLOX_STDCALL cloxDisassembleCodeBlock(FILE *const stream, const Cl
     if (cloxInitCodeBlockReader(&codeBlockReader, codeBlock)->array)
     {
         while (!cloxCodeBlockReaderIsAtEnd(&codeBlockReader))
-            fputs("  ", stream), clox_DisassembleInstruction(stream, &codeBlockReader);
+            clox_DisassembleInstruction(stream, &codeBlockReader);
     }
 
     return;
