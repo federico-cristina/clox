@@ -4,10 +4,19 @@
  * informations.
  */
 
+#include "clox/base/bits.h"
+#include "clox/base/byte.h"
 #include "clox/vm/opcode.h"
-#include "clox/base/defs.h"
 
-CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
+#ifndef CLOX_OP_CODE_INFOS_MAX
+#   ifndef CLOX_OPTIMIZE
+#       define CLOX_OP_CODE_INFOS_MAX (BYTE_MAX + 1)
+#   else
+#       define CLOX_OP_CODE_INFOS_MAX
+#   endif
+#endif
+
+CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[CLOX_OP_CODE_INFOS_MAX] = {
 #if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
     [CLOX_OP_CODE_NOP] = {
         .name = "nop",
@@ -16,11 +25,11 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
     },
 
 #   ifndef cloxDefineOpCode
-#      define cloxDefineOpCode(opCode, opName, opMode) \
-    [opCode] = {                                       \
-        .name = opName,                                \
-        .code = opCode,                                \
-        .mode = opMode,                                \
+#      define cloxDefineOpCode(opEnum, opCode, opName, opMode) \
+    [opCode] = {                                               \
+        .name = opName,                                        \
+        .code = opEnum,                                        \
+        .mode = opMode,                                        \
     },
 #   endif
 
@@ -37,15 +46,15 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
     },
 
 #   ifndef cloxDefineOpCode
-#      define cloxDefineOpCode(opCode, opName, opMode) \
-    {                                                  \
-        .name = opName,                                \
-        .code = opCode,                                \
-        .mode = opMode,                                \
+#      define cloxDefineOpCode(opEnum, opCode, opName, opMode) \
+    {                                                          \
+        .name = opName,                                        \
+        .code = opEnum,                                        \
+        .mode = opMode,                                        \
     },
 #   endif
 
-#   include CLOX_VM_OPCODES_INC_
+#   include CLOX_VM_OPCODE_INC_
 
 #   ifdef cloxDefineOpCode
 #       undef cloxDefineOpCode
@@ -53,11 +62,11 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[] = {
 #endif
 };
 
-CLOX_API bool_t CLOX_STDCALL cloxGetOpCodeInfo(CloxOpCode_t opCode, CloxOpCodeInfo_t *const outOpCodeInfo)
+CLOX_API bool_t CLOX_STDCALL cloxGetOpCodeInfo(const CloxOpCode_t opCode, CloxOpCodeInfo_t *const outOpCodeInfo)
 {
     CLOX_REGISTER bool_t result;
 
-    if ((opCode < 0) || (opCode >= (sizeof(clox_OpCodeInfos) / sizeof(*clox_OpCodeInfos))))
+    if ((opCode < 0) || (opCode >= countof(clox_OpCodeInfos)))
     {
         if (outOpCodeInfo)
         {
