@@ -11,8 +11,8 @@
  *              under the MIT License. See repo's LICENSE file for license
  *              informations.
  * 
- * @brief       In this header is defined a data structure to store a block
- *              of code. Providing a dynamic auto-resized array of bytes.
+ * @brief       In this header are defined data structures and functions to
+ *              deal, dynamically and statically, with blocks of bytecode.
  */
 
 #ifndef CLOX_VM_CODE_BLOCK_H_
