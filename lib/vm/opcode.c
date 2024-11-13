@@ -33,7 +33,7 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[CLOX_OP_CODE_INFOS_MAX] = {
     },
 #   endif
 
-#   include CLOX_VM_OPCODES_INC_
+#   include CLOX_VM_OPCODE_INC_
 
 #   ifdef cloxDefineOpCode
 #       undef cloxDefineOpCode
