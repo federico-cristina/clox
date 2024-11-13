@@ -355,7 +355,7 @@ CLOX_API byte_t CLOX_STDCALL cloxCodeBlockReaderPeek(const CloxCodeBlockReader_t
  */
 CLOX_INLINE bool_t CLOX_STDCALL cloxCodeBlockReaderIsAtEnd(const CloxCodeBlockReader_t *const codeBlockReader)
 {
-    return assert(codeBlockReader != NULL), codeBlockReader->index < codeBlockReader->count;
+    return assert(codeBlockReader != NULL), codeBlockReader->index >= codeBlockReader->count;
 }
 
 /**
