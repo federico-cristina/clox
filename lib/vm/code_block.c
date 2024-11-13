@@ -207,7 +207,7 @@ CLOX_API CloxCodeBlockReader_t *CLOX_STDCALL cloxInitCodeBlockReaderFromBuffer(C
 {
     assert(codeBlockReader != NULL && buffer != NULL);
 
-    codeBlockReader->array = buffer;
+    codeBlockReader->array = (byte_t *)buffer;
     codeBlockReader->count = count;
     codeBlockReader->index = 0;
 
