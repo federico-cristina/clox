@@ -25,6 +25,13 @@
 CLOX_C_HEADER_BEGIN
 
 /**
+ * @defgroup    DEBUGGER_DISASSEMBLER Debugger Disassembler
+ * @{
+ */
+
+#pragma region Debugger Disassembler
+
+/**
  * @brief       This function disassembles the bytecode stored into a specific
  *              CloxCodeBlock_t instance, printing disassembled data into a
  *              FILE stream.
@@ -35,6 +42,12 @@ CLOX_C_HEADER_BEGIN
  *              disassemble bytecode.
  */
 CLOX_API void CLOX_STDCALL cloxDisassembleCodeBlock(FILE *const stream, const CloxCodeBlock_t *const codeBlock);
+
+#pragma endregion
+
+/**
+ * @}
+ */
 
 CLOX_C_HEADER_END
 
