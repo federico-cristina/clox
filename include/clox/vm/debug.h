@@ -22,6 +22,20 @@
 
 #include <stdio.h>
 
+#ifndef cloxDebug
+#   if CLOX_DEBUG
+/**
+ * @brief       This macro provides conditional debugging statements compilation.
+ */
+#       define cloxDebug(statement) statement
+#   else
+/**
+ * @brief       This macro provides conditional debugging statements compilation.
+ */
+#       define cloxDebug(statement)
+#   endif
+#endif
+
 CLOX_C_HEADER_BEGIN
 
 /**
