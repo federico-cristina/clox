@@ -23,7 +23,7 @@ CLOX_API void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxCo
 
     if (cloxGetOpCodeInfo(cloxCodeBlockReaderGet(codeBlockReader), &opCodeInfo))
     {
-        fprintf(stream, CLOX_DISASSEMBLER_OFFSET_FORMAT " %-16s", (uint32_t)codeBlockReader->index - 1, opCodeInfo.name);
+        fprintf(stream, CLOX_DISASSEMBLER_OFFSET_FORMAT " %-8s", (uint32_t)codeBlockReader->index - 1, opCodeInfo.name);
 
         switch (opCodeInfo.mode)
         {
@@ -35,6 +35,9 @@ CLOX_API void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxCo
             break;
 
         case CLOX_OP_MODE_LONG:
+            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
+            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
+            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
             break;
 
         case CLOX_OP_MODE_SCAN:
