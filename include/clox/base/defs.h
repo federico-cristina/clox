@@ -90,7 +90,7 @@
  * @brief       This macro gets its parameter back, expanding it if it's a
  *              symbolic constant.
  *
- * @param       x       The value to get back.
+ * @param       x The value to get back.
  * @return      The value of the `x` parameter.
  */
 #   define cloxExpandMacro(x) x
