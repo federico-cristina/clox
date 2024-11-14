@@ -18,6 +18,11 @@
 #   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
 #endif
 
+/**
+ * @defgroup    OPCODES OpCodes
+ * @{
+ */
+
 /* =---- Status Control OpCodes --------------------------------= */
 
 /**
@@ -25,26 +30,77 @@
  */
 cloxDefineOpCode(CLOX_OP_CODE_BREAK,    0x01,   "break",    CLOX_OP_MODE_NONE)
 /**
- * @brief       Represents 'abort' opcode (aborts execution).
+ * @brief       Represents 'abort' opcode (abort).
  */
 cloxDefineOpCode(CLOX_OP_CODE_ABORT,    0x02,   "abort",    CLOX_OP_MODE_NONE)
 /**
- * @brief       Represents 'exit' opcode (exits execution with an exit code).
+ * @brief       Represents 'exit' opcode (exit).
  */
 cloxDefineOpCode(CLOX_OP_CODE_EXIT,     0x03,   "exit",     CLOX_OP_MODE_BYTE)
 /**
- * @brief       Represents 'raise' opcode (raises a signal).
+ * @brief       Represents 'raise' opcode (raise).
  */
 cloxDefineOpCode(CLOX_OP_CODE_RAISE,    0x04,   "raise",    CLOX_OP_MODE_BYTE)
+
+/* =---- Loading OpCodes ---------------------------------------= */
+
+/**
+ * @brief       Represents 'ldb' opcode (load byte).
+ * 
+ * @note        This opcode loads onto the evaluation stack a byte specified by
+ *              the argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDB,      0x20,   "ldb",      CLOX_OP_MODE_BYTE)
+/**
+ * @brief       Represents 'ldl' opcode (load long).
+ * 
+ * @note        This opcode loads onto the evaluation stack a value specified by
+ *              the long argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDL,      0x21,   "ldl",      CLOX_OP_MODE_LONG)
+/**
+ * @brief       Represents 'lds' opcode (load sequence).
+ * 
+ * @note        This opcode loads onto the evaluation stack a sequence of n-bytes,
+ *              where n is the first byte after the opcode.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDS,      0x22,   "lds",      CLOX_OP_MODE_READ)
+/**
+ * @brief       Represents 'lda' opcode (load arbitrary).
+ * 
+ * @note        This opcode loads onto the evaluation stack an arbitrary sequence
+ *              of bytes.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDA,      0x23,   "lda",      CLOX_OP_MODE_NEXT)
+/**
+ * @brief       Represents 'ldc' opcode (load constant).
+ * 
+ * @note        This opcode loads onto the evaluation stack a constant value
+ *              specified by the scanned argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDC,      0x24,   "ldc",      CLOX_OP_MODE_SCAN)
+
+/**
+ * @brief       Represents 'lec' opcode (load effective constant).
+ * 
+ * @note        This opcode loads onto the evaluation stack the constant value
+ *              stored into the constants data table filled by the virtual
+ *              machine during compilation and interpretation at the index
+ *              specified by the opcode argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LEC,      0x25,   "lec",      CLOX_OP_MODE_LONG)
+/**
+ * @brief       Represents 'lea' opcode (load effective address).
+ * 
+ * @note        This opcode loads onto the evaluation stack the address of the
+ *              entry of the constants data table filled by the virtual machine
+ *              during compilation and interpretation at the index specified by
+ *              the opcode argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LEA,      0x26,   "lea",      CLOX_OP_MODE_LONG)
 
 /* =------------------------------------------------------------= */
 
 /**
- * @brief       Represents 'ret' opcode (return).
+ * @}
  */
-cloxDefineOpCode(CLOX_OP_CODE_RET, 0xF0,      "ret",      CLOX_OP_MODE_NONE)
-
-/**
- * @brief       Represents 'ldbyte' opcode (loada a byte).
- */
-cloxDefineOpCode(CLOX_OP_CODE_LDBYTE, 0xF1,   "ldbyte",   CLOX_OP_MODE_BYTE)
