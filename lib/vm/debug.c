@@ -17,7 +17,7 @@
 #   endif
 #endif
 
-CLOX_STATIC void CLOX_STDCALL clox_DisassembleInstruction(FILE *const stream, CloxCodeBlockReader_t *const codeBlockReader)
+CLOX_API void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxCodeBlockReader_t *const codeBlockReader)
 {
     CloxOpCodeInfo_t opCodeInfo;
 
@@ -32,6 +32,9 @@ CLOX_STATIC void CLOX_STDCALL clox_DisassembleInstruction(FILE *const stream, Cl
 
         case CLOX_OP_MODE_BYTE:
             fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
+            break;
+
+        case CLOX_OP_MODE_LONG:
             break;
 
         case CLOX_OP_MODE_SCAN:
@@ -60,7 +63,7 @@ CLOX_API void CLOX_STDCALL cloxDisassembleCodeBlock(FILE *const stream, const Cl
     if (cloxInitCodeBlockReader(&codeBlockReader, codeBlock)->array)
     {
         while (!cloxCodeBlockReaderIsAtEnd(&codeBlockReader))
-            clox_DisassembleInstruction(stream, &codeBlockReader);
+            cloxDisassembleInstruction(stream, &codeBlockReader);
     }
 
     return;

@@ -46,6 +46,17 @@ CLOX_C_HEADER_BEGIN
 #pragma region Debugger Disassembler
 
 /**
+ * @brief       This function disassembles a bytecode instruction stored into
+ *              a specific CloxCodeBlockReader_t instance, printing disassembled
+ *              data into a FILE stream.
+ * 
+ * @param       stream A pointer to the FILE stream handler to which print the
+ *              disassembled data.
+ * @param       codeBlockReader A pointer to a CloxCodeBlockReader_t instance
+ *              from which read bytes.
+ */
+CLOX_API void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxCodeBlockReader_t *const codeBlockReader);
+/**
  * @brief       This function disassembles the bytecode stored into a specific
  *              CloxCodeBlock_t instance, printing disassembled data into a
  *              FILE stream.
