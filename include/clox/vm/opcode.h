@@ -61,9 +61,6 @@ typedef enum _CloxOpMode
      *          as argument: while the byte taken as argument has the BYTE_MAX
      *          value, the argument decoder, takes the next and repeat the
      *          operation.
-     * 
-     * @example In the following bytecode 7F FF F3 F1 where 7F is an opcode with
-     *          CLOX_OP_MODE_NEXT flag, arguments taken are FF F3, but not F1.
      */
     CLOX_OP_MODE_NEXT,
     /**
@@ -72,6 +69,14 @@ typedef enum _CloxOpMode
      */
     CLOX_OP_MODE_SCAN,
 } CloxOpMode_t;
+
+#ifndef CLOX_OP_MODE_LONG_SIZE
+/**
+ * @brief       This constant represents the number of bytes that an opcode with
+ *              CLOX_OP_MODE_LONG will take as argument.
+ */
+#   define CLOX_OP_MODE_LONG_SIZE 3
+#endif
 
 #pragma endregion
 
