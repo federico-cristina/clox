@@ -59,19 +59,19 @@ cloxDefineOpCode(CLOX_OP_CODE_LDB,      0x20,   "ldb",      CLOX_OP_MODE_BYTE)
  */
 cloxDefineOpCode(CLOX_OP_CODE_LDL,      0x21,   "ldl",      CLOX_OP_MODE_LONG)
 /**
- * @brief       Represents 'lds' opcode (load sequence).
+ * @brief       Represents 'ldn' opcode (load n-bytes).
  * 
  * @note        This opcode loads onto the evaluation stack a sequence of n-bytes,
  *              where n is the first byte after the opcode.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDS,      0x22,   "lds",      CLOX_OP_MODE_READ)
+cloxDefineOpCode(CLOX_OP_CODE_LDN,      0x22,   "ldn",      CLOX_OP_MODE_READ)
 /**
- * @brief       Represents 'lda' opcode (load arbitrary).
+ * @brief       Represents 'lds' opcode (load sequence).
  * 
  * @note        This opcode loads onto the evaluation stack an arbitrary sequence
- *              of bytes.
+ *              of chained bytes.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDA,      0x23,   "lda",      CLOX_OP_MODE_NEXT)
+cloxDefineOpCode(CLOX_OP_CODE_LDS,      0x23,   "lds",      CLOX_OP_MODE_NEXT)
 /**
  * @brief       Represents 'ldc' opcode (load constant).
  * 
