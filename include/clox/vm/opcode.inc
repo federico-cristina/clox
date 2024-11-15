@@ -14,14 +14,14 @@
  *              how is defined the corresponed x-macro.
  */
 
-#ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
-#endif
-
 /**
  * @defgroup    OPCODES OpCodes
  * @{
  */
+
+#ifndef cloxDefineOpCode
+#   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
+#endif
 
 /* =---- Status Control OpCodes --------------------------------= */
 
