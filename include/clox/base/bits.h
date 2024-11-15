@@ -270,6 +270,54 @@ typedef int32_t int64_t;
 
 #endif
 
+#if !defined INTPTR_MIN || !defined INTPTR_MAX
+
+#if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       Signed pointer integer datatype.
+ */
+typedef int64_t intptr_t;
+#else
+/**
+ * @brief       Signed pointer integer datatype.
+ */
+typedef int32_t intptr_t;
+#endif
+
+#ifndef INTPTR_MIN
+#   if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       This macro represents the minimum value representable with a
+ *              signed integer pointer.
+ */
+#       define INTPTR_MIN ((intptr_t)INT64_MIN)
+#   else
+/**
+ * @brief       This macro represents the minimum value representable with a
+ *              signed integer pointer.
+ */
+#       define INTPTR_MIN ((intptr_t)INT32_MIN)
+#   endif
+#endif
+
+#ifndef INTPTR_MAX
+#   if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       This macro represents the maximum value representable with a
+ *              signed integer pointer.
+ */
+#       define INTPTR_MAX ((intptr_t)INT64_MAX)
+#   else
+/**
+ * @brief       This macro represents the maximum value representable with a
+ *              signed integer pointer.
+ */
+#       define INTPTR_MAX ((intptr_t)INT32_MAX)
+#   endif
+#endif
+
+#endif
+
 #if !defined INTMAX_MIN || !defined INTMAX_MAX
 
 /**
@@ -415,6 +463,54 @@ typedef uint32_t uint64_t;
  *              64-bit unsigned integer.
  */
 #       define UINT64_MAX ((uint64_t)UINT32_MAX)
+#   endif
+#endif
+
+#endif
+
+#if !defined UINTPTR_MIN || !defined UINTPTR_MAX
+
+#if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       Unsigned pointer integer datatype.
+ */
+typedef uint64_t uintptr_t;
+#else
+/**
+ * @brief       Unsigned pointer integer datatype.
+ */
+typedef uint32_t uintptr_t;
+#endif
+
+#ifndef UINTPTR_MIN
+#   if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       This macro represents the minimum value representable with an
+ *              unsigned integer pointer.
+ */
+#       define UINTPTR_MIN ((uintptr_t)UINT64_MIN)
+#   else
+/**
+ * @brief       This macro represents the minimum value representable with an
+ *              unsigned integer pointer.
+ */
+#       define UINTPTR_MIN ((uintptr_t)UINT32_MIN)
+#   endif
+#endif
+
+#ifndef UINTPTR_MAX
+#   if CLOX_ARCHTECT_IS_64_BIT
+/**
+ * @brief       This macro represents the maximum value representable with an
+ *              unsigned integer pointer.
+ */
+#       define UINTPTR_MAX ((uintptr_t)UINT64_MAX)
+#   else
+/**
+ * @brief       This macro represents the maximum value representable with an
+ *              unsigned integer pointer.
+ */
+#       define UINTPTR_MAX ((uintptr_t)UINT32_MAX)
 #   endif
 #endif
 
