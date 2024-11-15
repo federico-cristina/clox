@@ -14,14 +14,16 @@
  *              how is defined the corresponed x-macro.
  */
 
+#ifndef cloxDefineOpCode
+#   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
+#endif
+
 /**
  * @defgroup    OPCODES OpCodes
  * @{
  */
 
-#ifndef cloxDefineOpCode
-#   define cloxDefineOpCode(opEnum, opCode, opName, opMode)
-#endif
+#pragma region OpCodes
 
 /* =---- Status Control OpCodes --------------------------------= */
 
@@ -59,26 +61,33 @@ cloxDefineOpCode(CLOX_OP_CODE_LDB,      0x20,   "ldb",      CLOX_OP_MODE_BYTE)
  */
 cloxDefineOpCode(CLOX_OP_CODE_LDL,      0x21,   "ldl",      CLOX_OP_MODE_LONG)
 /**
+ * @brief       Represents 'ldx' opcode (load extended).
+ * 
+ * @note        This opcode loads onto the evaluation stack a value specified by
+ *              the extended argument.
+ */
+cloxDefineOpCode(CLOX_OP_CODE_LDX,      0x22,   "ldx",      CLOX_OP_MODE_EXTN)
+/**
  * @brief       Represents 'ldn' opcode (load n-bytes).
  * 
  * @note        This opcode loads onto the evaluation stack a sequence of n-bytes,
  *              where n is the first byte after the opcode.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDN,      0x22,   "ldn",      CLOX_OP_MODE_READ)
+cloxDefineOpCode(CLOX_OP_CODE_LDN,      0x23,   "ldn",      CLOX_OP_MODE_READ)
 /**
  * @brief       Represents 'lds' opcode (load sequence).
  * 
  * @note        This opcode loads onto the evaluation stack an arbitrary sequence
  *              of chained bytes.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDS,      0x23,   "lds",      CLOX_OP_MODE_NEXT)
+cloxDefineOpCode(CLOX_OP_CODE_LDS,      0x24,   "lds",      CLOX_OP_MODE_NEXT)
 /**
  * @brief       Represents 'ldc' opcode (load constant).
  * 
  * @note        This opcode loads onto the evaluation stack a constant value
  *              specified by the scanned argument.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LDC,      0x24,   "ldc",      CLOX_OP_MODE_SCAN)
+cloxDefineOpCode(CLOX_OP_CODE_LDC,      0x25,   "ldc",      CLOX_OP_MODE_SCAN)
 
 /**
  * @brief       Represents 'lec' opcode (load effective constant).
@@ -88,7 +97,7 @@ cloxDefineOpCode(CLOX_OP_CODE_LDC,      0x24,   "ldc",      CLOX_OP_MODE_SCAN)
  *              machine during compilation and interpretation at the index
  *              specified by the opcode argument.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LEC,      0x25,   "lec",      CLOX_OP_MODE_LONG)
+cloxDefineOpCode(CLOX_OP_CODE_LEC,      0x26,   "lec",      CLOX_OP_MODE_LONG)
 /**
  * @brief       Represents 'lea' opcode (load effective address).
  * 
@@ -97,12 +106,14 @@ cloxDefineOpCode(CLOX_OP_CODE_LEC,      0x25,   "lec",      CLOX_OP_MODE_LONG)
  *              during compilation and interpretation at the index specified by
  *              the opcode argument.
  */
-cloxDefineOpCode(CLOX_OP_CODE_LEA,      0x26,   "lea",      CLOX_OP_MODE_LONG)
+cloxDefineOpCode(CLOX_OP_CODE_LEA,      0x27,   "lea",      CLOX_OP_MODE_LONG)
 
 /* =------------------------------------------------------------= */
 
-#undef cloxDefineOpCode
+#pragma endregion
 
 /**
  * @}
  */
+
+#undef cloxDefineOpCode
