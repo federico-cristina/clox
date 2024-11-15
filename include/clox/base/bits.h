@@ -270,6 +270,31 @@ typedef int32_t int64_t;
 
 #endif
 
+#if !defined INTMAX_MIN || !defined INTMAX_MAX
+
+/**
+ * @brief       Signed biggest integer datatype.
+ */
+typedef int64_t intmax_t;
+
+#ifndef INTMAX_MIN
+/**
+ * @brief       This macro represents the minimum value representable with a
+ *              signed integer of the maximum size.
+ */
+#   define INTMAX_MIN ((intmax_t)INT64_MIN)
+#endif
+
+#ifndef INTMAX_MAX
+/**
+ * @brief       This macro represents the maximum value representable with a
+ *              signed integer of the maximum size.
+ */
+#   define INTMAX_MAX ((intmax_t)INT64_MAX)
+#endif
+
+#endif
+
 /* Unsigned integers */
 
 #if !defined UINT8_MIN || !defined UINT8_MAX
@@ -391,6 +416,31 @@ typedef uint32_t uint64_t;
  */
 #       define UINT64_MAX ((uint64_t)UINT32_MAX)
 #   endif
+#endif
+
+#endif
+
+#if !defined UINTMAX_MIN || !defined UINTMAX_MAX
+
+/**
+ * @brief       Unsigned biggest integer datatype.
+ */
+typedef uint64_t uintmax_t;
+
+#ifndef UINTMAX_MIN
+/**
+ * @brief       This macro represents the minimum value representable with an
+ *              unsigned integer of the maximum size.
+ */
+#   define UINTMAX_MIN ((uintmax_t)UINT64_MIN)
+#endif
+
+#ifndef UINTMAX_MAX
+/**
+ * @brief       This macro represents the maximum value representable with an
+ *              unsigned integer of the maximum size.
+ */
+#   define UINTMAX_MAX ((uintmax_t)UINT64_MAX)
 #endif
 
 #endif
