@@ -420,4 +420,11 @@
 #   endif
 #endif
 
+#ifndef CLOX_OPTIMIZE
+/**
+ * @brief       This constants specifies when enable optimizations.
+ */
+#   define CLOX_OPTIMIZE 1
+#endif
+
 #endif /* CLOX_BASE_DEFS_H_ */
