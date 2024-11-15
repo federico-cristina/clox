@@ -101,6 +101,8 @@ cloxDefineOpCode(CLOX_OP_CODE_LEA,      0x26,   "lea",      CLOX_OP_MODE_LONG)
 
 /* =------------------------------------------------------------= */
 
+#undef cloxDefineOpCode
+
 /**
  * @}
  */
