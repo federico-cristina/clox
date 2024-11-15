@@ -52,6 +52,11 @@ typedef enum _CloxOpMode
      */
     CLOX_OP_MODE_LONG,
     /**
+     * @brief   Represents an opcodes that takes the seven following bytes ad
+     *          argument.
+     */
+    CLOX_OP_MODE_EXTN,
+    /**
      * @brief   Represents an opcode that takes an amount of bytes as argument
      *          as specified by the following byte.
      */
@@ -76,6 +81,14 @@ typedef enum _CloxOpMode
  *              CLOX_OP_MODE_LONG will take as argument.
  */
 #   define CLOX_OP_MODE_LONG_SIZE 3
+#endif
+
+#ifndef CLOX_OP_MODE_EXTN_SIZE
+/**
+ * @brief       This constant represents the number of bytes that an opcode with
+ *              CLOX_OP_MODE_EXTN will take as argument.
+ */
+#   define CLOX_OP_MODE_EXTN_SIZE 7
 #endif
 
 #pragma endregion
