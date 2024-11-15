@@ -23,8 +23,6 @@
  * @{
  */
 
-#pragma region OpCodes
-
 /* =---- Status Control OpCodes --------------------------------= */
 
 /**
@@ -109,8 +107,6 @@ cloxDefineOpCode(CLOX_OP_CODE_LEC,      0x26,   "lec",      CLOX_OP_MODE_LONG)
 cloxDefineOpCode(CLOX_OP_CODE_LEA,      0x27,   "lea",      CLOX_OP_MODE_LONG)
 
 /* =------------------------------------------------------------= */
-
-#pragma endregion
 
 /**
  * @}
