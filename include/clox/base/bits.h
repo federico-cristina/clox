@@ -270,7 +270,7 @@ typedef int32_t int64_t;
 
 #endif
 
-#if !defined INTPTR_MIN || !defined INTPTR_MAX
+#if (!defined INTPTR_MIN || !defined INTPTR_MAX) && !CLOX_PLATFORM_IS_WINDOWS
 
 #if CLOX_ARCHTECT_IS_64_BIT
 /**
@@ -468,7 +468,7 @@ typedef uint32_t uint64_t;
 
 #endif
 
-#if !defined UINTPTR_MIN || !defined UINTPTR_MAX
+#if (!defined UINTPTR_MIN || !defined UINTPTR_MAX) && !CLOX_PLATFORM_IS_WINDOWS
 
 #if CLOX_ARCHTECT_IS_64_BIT
 /**
