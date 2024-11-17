@@ -333,13 +333,13 @@ typedef enum _CloxValueType
  * @brief       This constant represents the pointer value type printf
  *              style format.
  */
-#       define CLOX_VALUE_TYPE_PNTR_FORMAT      "0x%016p"
+#       define CLOX_VALUE_TYPE_PNTR_FORMAT      "0x%16p"
 #   else
 /**
  * @brief       This constant represents the void pointer type printf
  *              style format.
  */
-#       define CLOX_VALUE_TYPE_PNTR_FORMAT      "0x%08p"
+#       define CLOX_VALUE_TYPE_PNTR_FORMAT      "0x%8p"
 #   endif
 #endif
 
