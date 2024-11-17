@@ -91,7 +91,7 @@ CLOX_API int CLOX_STDCALL cloxDumpValue(FILE *const stream, const CloxValue_t *c
 #endif
 
         case CLOX_VALUE_TYPE_VPTR:
-            result = fprintf(stream, CLOX_VALUE_TYPE_PNTR_FORMAT, value->data.iPtr);
+            result = fprintf(stream, CLOX_VALUE_TYPE_PNTR_FORMAT, value->data.vPtr);
             break;
 
         default:
