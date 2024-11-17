@@ -250,7 +250,7 @@ CLOX_INLINE char *CLOX_STDCALL strupp(char *const dest, const char *const src)
  */
 #   define stricmp(str1, str2) strcasecmp((str1), (str2))
 #else
-#   if !(CLOX_C_EXTENSIONS && CLOX_PLATFORM_IS_WINDOWS)
+#   if !(CLOX_C_EXTENSIONS && CLOX_PLATFORM_IS_WINDOWS) && !defined _INC_STRING
 /**
  * @brief       Performs a case-insensitive comparison of strings.
  * 
