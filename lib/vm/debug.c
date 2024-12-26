@@ -7,7 +7,7 @@
 #include "clox/base/errno.h"
 #include "clox/base/file.h"
 #include "clox/vm/debug.h"
-#include "clox/vm/opcode.h"
+#include "clox/vm/code.h"
 
 #ifndef CLOX_DISASSEMBLER_OFFSET_FORMAT
 #   if CLOX_ARCHTECT_IS_64_BIT
@@ -25,24 +25,8 @@ CLOX_API void CLOX_STDCALL cloxDisassembleInstruction(FILE *const stream, CloxCo
     {
         fprintf(stream, CLOX_DISASSEMBLER_OFFSET_FORMAT " %-8s", (uint32_t)codeBlockReader->index - 1, opCodeInfo.name);
 
-        switch (opCodeInfo.mode)
+        switch (opCodeInfo.kind)
         {
-        case CLOX_OP_MODE_NONE:
-            break;
-
-        case CLOX_OP_MODE_BYTE:
-            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
-            break;
-
-        case CLOX_OP_MODE_LONG:
-            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
-            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
-            fprintf(stream, " %02X", cloxCodeBlockReaderGet(codeBlockReader));
-            break;
-
-        case CLOX_OP_MODE_SCAN:
-            notimpl();
-        
         default:
             unreach();
         }
