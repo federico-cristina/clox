@@ -1,5 +1,5 @@
-clox_add_unit_test(opcode
-	SOURCES "test_opcode.c"
+clox_add_unit_test(code
+	SOURCES "test_code.c"
 	DEPENDS vm
 )
 

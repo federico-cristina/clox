@@ -1,14 +1,14 @@
 set(HEADERS
     "code_block.h"
     "debug.h"
-    "opcode.h"
+    "code.h"
     "value.h"
 )
 
 set(SOURCES
     "code_block.c"
     "debug.c"
-    "opcode.c"
+    "code.c"
     "value.c"
 )
 
