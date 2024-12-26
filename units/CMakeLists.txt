@@ -1,2 +1,2 @@
-add_subdirectory(base)
-add_subdirectory(vm)
+# add_subdirectory(base)
+# add_subdirectory(vm)
