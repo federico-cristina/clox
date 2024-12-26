@@ -45,7 +45,7 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[CLOX_OP_CODE_INFOS_MAX] = {
         .name = "nop",
         .func = NULL,
         .code = CLOX_OP_CODE_NOP,
-        .mode = CLOX_OP_MODE_NONE,
+        .mode = CLOX_OP_KIND_BYTE,
     },
 
 #   ifndef cloxDefineOpCode
