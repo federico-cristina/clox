@@ -26,6 +26,10 @@
 #include <float.h>
 #include <limits.h>
 
+#if CLOX_PLATFORM_IS_UNIX
+#   include <unistd.h>
+#endif
+
 #ifndef countof
 /**
  * @brief       Computes the number of elements in a specified array.
@@ -222,7 +226,7 @@ typedef int int32_t;
 
 #endif
 
-#if (!defined INT64_MIN || !defined INT64_MAX) && CLOX_PLATFORM_IS_WINDOWS
+#if (!defined INT64_MIN || !defined INT64_MAX) || CLOX_PLATFORM_IS_WINDOWS
 
 #if CLOX_C_STANDARD >= CLOX_C_STANDARD_C99
 /**
@@ -557,6 +561,8 @@ typedef uint64_t uintmax_t;
  */
 typedef SSIZE_T ssize_t;
 
+#endif
+
 #ifndef SSIZE_MIN
 #   ifdef LLONG_MIN
 /**
@@ -583,8 +589,6 @@ typedef SSIZE_T ssize_t;
  */
 #       define SSIZE_MAX LONG_MAX
 #   endif
-#endif
-
 #endif
 
 #pragma endregion
