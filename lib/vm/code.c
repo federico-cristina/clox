@@ -31,7 +31,7 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[CLOX_OP_CODE_INFOS_MAX] = {
         .name = opName,                                                \
         .func = opFunc,                                                \
         .code = opEnum,                                                \
-        .mode = opMode,                                                \
+        .kind = opKind,                                                \
     },
 #   endif
 
@@ -49,12 +49,12 @@ CLOX_STATIC const CloxOpCodeInfo_t clox_OpCodeInfos[CLOX_OP_CODE_INFOS_MAX] = {
     },
 
 #   ifndef cloxDefineOpCode
-#      define cloxDefineOpCode(opEnum, opCode, opName, opMode, opFunc) \
+#      define cloxDefineOpCode(opEnum, opCode, opName, opKind, opFunc) \
     {                                                                  \
         .name = opName,                                                \
         .func = opFunc,                                                \
         .code = opEnum,                                                \
-        .mode = opMode,                                                \
+        .kind = opKind,                                                \
     },
 #   endif
 
